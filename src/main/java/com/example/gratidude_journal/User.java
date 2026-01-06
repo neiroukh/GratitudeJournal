@@ -28,6 +28,10 @@ public class User {
         return true;
     }
 
+    public static boolean validateAllNames(String userName, String firstName, String lastName) {
+        return validateName(userName) && validateName(firstName) && validateName(lastName);
+    }
+
     User() {
     }
 
@@ -46,8 +50,12 @@ public class User {
     }
 
     private void setUserName(String userName) {
+        System.out.println("------------------------------");
+        System.out.println(userName);
+        System.out.println("------------------------------");
         if (!validateName(userName))
             throw new NameInvalidException(userName);
+
 
         this.userName = userName;
     }

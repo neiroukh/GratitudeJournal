@@ -1,7 +1,5 @@
 package com.example.gratidude_journal;
 
-import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,13 +17,6 @@ class UserController {
     UserController(UserRepository repository) {
         this.repository = repository;
     }
-
-    /*
-    @GetMapping("/user")
-    List<User> all() {
-        return repository.findAll();
-    }
-    */
 
     @GetMapping("/user/{userName}")
     User getUserByUserName(@PathVariable String userName) {

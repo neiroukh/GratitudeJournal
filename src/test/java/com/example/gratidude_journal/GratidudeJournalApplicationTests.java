@@ -1,7 +1,5 @@
 package com.example.gratidude_journal;
 
-import java.net.ResponseCache;
-
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +47,7 @@ class HttpRequestTest {
 	}
 
 	ResponseSpec requestPostUser(String userName, String firstName, String lastName) {
-		User newUser = new User(userName, firstName, lastName);
+		UserDTO newUser = new UserDTO(userName, firstName, lastName);
 		return restTestClient.post().uri("/user")
 				.body(newUser)
 				.exchange();
@@ -68,10 +66,22 @@ class HttpRequestTest {
 	}
 
 	ResponseSpec requestPutUser(String userName, String firstName, String lastName) {
-		User updatedUser = new User(userName, firstName, lastName);
+		UserDTO updatedUser = new UserDTO(userName, firstName, lastName);
 		return restTestClient.put().uri("/user")
 				.body(updatedUser)
 				.exchange();
+	}
+
+	void requestAndValidatePutUser(String userName, String firstName, String lastName) {
+		requestPutUser(userName, firstName, lastName)
+				.expectStatus().isOk()
+				.expectBody(User.class)
+				.value(user -> {
+					org.junit.jupiter.api.Assertions.assertEquals(userName, user.getUserName());
+					org.junit.jupiter.api.Assertions.assertEquals(firstName, user.getFirstName());
+					org.junit.jupiter.api.Assertions.assertEquals(lastName, user.getLastName());
+					org.junit.jupiter.api.Assertions.assertNotNull(user.getUserId());
+				});
 	}
 
 	@Test
@@ -128,4 +138,38 @@ class HttpRequestTest {
 				.expectStatus().isForbidden();
 	}
 
+	@Test
+	void createUserWithInvalidName() {
+		requestPostUser("", "firstName", "lastName")
+				.expectStatus().isBadRequest();
+		requestPostUser("userName", "", "lastName")
+				.expectStatus().isBadRequest();
+		requestPostUser("userName", "firstName", "")
+				.expectStatus().isBadRequest();
+	}
+
+	@Test
+	void updateUserThatDoesExist() {
+		requestAndValidateGetUser("test2UserName", "test2FirstName", "test2LastName");
+
+		requestAndValidatePutUser("test2UserName", "firstNameUpdated", "lastNameUpdated");
+
+		requestAndValidateGetUser("test2UserName", "firstNameUpdated", "lastNameUpdated");
+	}
+
+	@Test
+	void updateUserThatDoesNotExist() {
+		requestPutUser("IDoNotExist", "firstName", "lastName")
+		.expectStatus().isNotFound();
+	}
+
+	@Test
+	void updateUserWithInvalidName() {
+		requestPutUser("", "firstName", "lastName")
+				.expectStatus().isBadRequest();
+		requestPutUser("test2UserName", "", "lastName")
+				.expectStatus().isBadRequest();
+		requestPutUser("test2UserName", "firstName", "")
+				.expectStatus().isBadRequest();
+	}
 }
