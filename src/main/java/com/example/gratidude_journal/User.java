@@ -81,7 +81,7 @@ public class User {
         if (!(o instanceof User))
             return false;
         User user = (User) o;
-        return Objects.equals(this.userId, user.userId) && Objects.equals(user.userName, user.userName)
+        return Objects.equals(this.userId, user.userId) && Objects.equals(this.userName, user.userName)
                 && Objects.equals(this.firstName, user.firstName) && Objects.equals(this.lastName, user.lastName);
     }
 
