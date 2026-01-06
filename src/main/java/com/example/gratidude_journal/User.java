@@ -50,9 +50,6 @@ public class User {
     }
 
     private void setUserName(String userName) {
-        System.out.println("------------------------------");
-        System.out.println(userName);
-        System.out.println("------------------------------");
         if (!validateName(userName))
             throw new NameInvalidException(userName);
 
