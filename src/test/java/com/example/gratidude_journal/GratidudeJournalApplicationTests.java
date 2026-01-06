@@ -1,5 +1,7 @@
 package com.example.gratidude_journal;
 
+import java.net.ResponseCache;
+
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.web.servlet.client.RestTestClient;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.web.servlet.client.RestTestClient.ResponseSpec;
 
 @Import(TestcontainersConfiguration.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -21,18 +24,108 @@ class HttpRequestTest {
 	@Autowired
 	private RestTestClient restTestClient;
 
-	@Test
-	void getapitest() {
-		restTestClient.get()
-				.uri("http://localhost:%d/user/test1UserName".formatted(port))
-				.exchange()
+	ResponseSpec requestGetUser(String userName) {
+		return restTestClient.get()
+				.uri("http://localhost:%d/user/%s".formatted(port, userName))
+				.exchange();
+	}
+
+	void requestAndValidateGetUser(String userName, String firstName, String lastName) {
+		requestGetUser(userName)
 				.expectStatus().isOk()
 				.expectBody(User.class)
 				.value(user -> {
-					org.junit.jupiter.api.Assertions.assertEquals("test1UserName", user.getUserName());
-					org.junit.jupiter.api.Assertions.assertEquals("test1FirstName", user.getFirstName());
-					org.junit.jupiter.api.Assertions.assertEquals("test1LastName", user.getLastName());
+					org.junit.jupiter.api.Assertions.assertEquals(userName, user.getUserName());
+					org.junit.jupiter.api.Assertions.assertEquals(firstName, user.getFirstName());
+					org.junit.jupiter.api.Assertions.assertEquals(lastName, user.getLastName());
 					org.junit.jupiter.api.Assertions.assertNotNull(user.getUserId());
 				});
 	}
+
+	ResponseSpec requestDeleteUser(String userName) {
+		return restTestClient.delete()
+				.uri("http://localhost:%d/user/%s".formatted(port, userName))
+				.exchange();
+	}
+
+	ResponseSpec requestPostUser(String userName, String firstName, String lastName) {
+		User newUser = new User(userName, firstName, lastName);
+		return restTestClient.post().uri("/user")
+				.body(newUser)
+				.exchange();
+	}
+
+	void requestAndValidatePostUser(String userName, String firstName, String lastName) {
+		requestPostUser(userName, firstName, lastName)
+				.expectStatus().isCreated()
+				.expectBody(User.class)
+				.value(user -> {
+					org.junit.jupiter.api.Assertions.assertEquals(userName, user.getUserName());
+					org.junit.jupiter.api.Assertions.assertEquals(firstName, user.getFirstName());
+					org.junit.jupiter.api.Assertions.assertEquals(lastName, user.getLastName());
+					org.junit.jupiter.api.Assertions.assertNotNull(user.getUserId());
+				});
+	}
+
+	ResponseSpec requestPutUser(String userName, String firstName, String lastName) {
+		User updatedUser = new User(userName, firstName, lastName);
+		return restTestClient.put().uri("/user")
+				.body(updatedUser)
+				.exchange();
+	}
+
+	@Test
+	void getUserThatDoesExist() {
+		requestAndValidateGetUser("test1UserName", "test1FirstName", "test1LastName");
+	}
+
+	@Test
+	void getUserThatDoesNotExist() {
+		requestGetUser("test4UserName")
+				.expectStatus().isNotFound();
+	}
+
+	@Test
+	void getUserWithInvalidName() {
+		requestGetUser("t")
+				.expectStatus().isBadRequest();
+	}
+
+	@Test
+	void deleteUser() {
+		requestDeleteUser("test3UserName")
+				.expectStatus().isOk();
+
+		requestGetUser("test3UserName")
+				.expectStatus().isNotFound();
+	}
+
+	@Test
+	void deleteUserThatDoesNotExist() {
+		requestDeleteUser("test4UserName")
+				.expectStatus().isNotFound();
+	}
+
+	@Test
+	void deleteUserWithInvalidName() {
+		requestDeleteUser("t")
+				.expectStatus().isBadRequest();
+	}
+
+	@Test
+	void createUserThatDoesNotExist() {
+		requestGetUser("newUserTestuserName")
+				.expectStatus().isNotFound();
+
+		requestAndValidatePostUser("newUserTestuserName", "newUserTestfirstName", "newUserTestlastName");
+
+		requestAndValidateGetUser("newUserTestuserName", "newUserTestfirstName", "newUserTestlastName");
+	}
+
+	@Test
+	void createUserThatDoesExist() {
+		requestPostUser("test1UserName", "firstName", "lastName")
+				.expectStatus().isForbidden();
+	}
+
 }
