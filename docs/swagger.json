@@ -77,7 +77,7 @@
           "400": {
             "description": "userName malformed"
           },
-          "403": {
+          "404": {
             "description": "User does not exist"
           }
         }
@@ -151,7 +151,7 @@
           "400": {
             "description": "Parameters malformed"
           },
-          "403": {
+          "404": {
             "description": "User does not exist"
           }
         }
