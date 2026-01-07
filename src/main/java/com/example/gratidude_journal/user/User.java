@@ -5,7 +5,12 @@ import java.util.Objects;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+
+import com.example.gratidude_journal.journal.Journal;
 
 @Entity
 public class User {
@@ -14,6 +19,10 @@ public class User {
     private String userName;
     private String firstName;
     private String lastName;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "journal_id", nullable = false, unique = true)
+    private Journal journal;
 
     public static boolean validateName(String name) {
         if (name == null)
@@ -39,6 +48,8 @@ public class User {
         this.setUserName(userName);
         this.setFirstName(firstName);
         this.setLastName(lastName);
+
+        this.journal = new Journal();
     }
 
     public Long getUserId() {
@@ -52,7 +63,6 @@ public class User {
     private void setUserName(String userName) {
         if (!validateName(userName))
             throw new NameInvalidException(userName);
-
 
         this.userName = userName;
     }
@@ -92,7 +102,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.userId, this.userName, this.firstName, this.lastName);
+        return Objects.hash(this.userId, this.userName);
     }
 
     @Override
