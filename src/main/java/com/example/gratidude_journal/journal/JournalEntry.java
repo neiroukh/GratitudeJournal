@@ -3,6 +3,7 @@ package com.example.gratidude_journal.journal;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -13,13 +14,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-class JournalEntry {
+public class JournalEntry {
     @Id
     @GeneratedValue
     Long journalEntryId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "journal_id", nullable = false)
+    @JoinColumn(name = "journal_id")
     private Journal journal;
 
     private enum WellBeing {
@@ -32,6 +33,7 @@ class JournalEntry {
         FANTASTIC
     }
 
+    @Column(updatable = false)
     private LocalDate date;
 
     @Enumerated(EnumType.STRING)
@@ -49,6 +51,11 @@ class JournalEntry {
     public JournalEntry(Journal journal) {
         this.journal = journal;
         this.date = LocalDate.now();
+    }
+
+    public void setJournal(Journal journal) {
+        if (this.journal == null)
+            this.journal = journal;
     }
 
     public LocalDate getDate() {
@@ -102,13 +109,7 @@ class JournalEntry {
         if (!(o instanceof JournalEntry))
             return false;
         JournalEntry journalEntry = (JournalEntry) o;
-        return Objects.equals(this.journalEntryId, journalEntry.journalEntryId)
-                && Objects.equals(this.journal, journalEntry.journal)
-                && Objects.equals(this.wellBeing, journalEntry.wellBeing)
-                && Objects.equals(this.gratefullForToday, journalEntry.gratefullForToday)
-                && Objects.equals(this.gratefullForTodayDescription, journalEntry.gratefullForTodayDescription)
-                && Objects.equals(this.gratefullForInLife, journalEntry.gratefullForInLife)
-                && Objects.equals(this.gratefullForInLifeDescription, journalEntry.gratefullForInLifeDescription);
+        return Objects.equals(this.journalEntryId, journalEntry.journalEntryId);
     }
 
     @Override
@@ -118,6 +119,8 @@ class JournalEntry {
 
     @Override
     public String toString() {
-        return "JournalEntry, " + date.toString();
+        return "JournalEntry of " + date.toString() + "\n" + "Grateful for today: " + gratefullForToday + ". Reason: "
+                + gratefullForTodayDescription + ".\n" + "Grateful for in life: " + gratefullForInLife + ". Reason: "
+                + gratefullForTodayDescription + ".";
     }
 }

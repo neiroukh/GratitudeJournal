@@ -12,14 +12,14 @@ import com.example.gratidude_journal.user.UserRepository;
 @Configuration
 class LoadDatabase {
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
-    
+
     @Bean
     CommandLineRunner initDatabase(UserRepository repository) {
         return args -> {
             repository.deleteAll();
             log.info("Preloading " + repository.save(new User("test1UserName", "test1FirstName", "test1LastName")));
-			log.info("Preloading " + repository.save(new User("test2UserName", "test2FirstName", "test2LastName")));
-			log.info("Preloading " + repository.save(new User("test3UserName", "test3FirstName", "test3LastName")));
+            log.info("Preloading " + repository.save(new User("test2UserName", "test2FirstName", "test2LastName")));
+            log.info("Preloading " + repository.save(new User("test3UserName", "test3FirstName", "test3LastName")));
         };
     }
 }

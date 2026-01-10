@@ -11,6 +11,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 
 import com.example.gratidude_journal.journal.Journal;
+import com.example.gratidude_journal.journal.JournalEntry;
 
 @Entity
 public class User {
@@ -21,7 +22,7 @@ public class User {
     private String lastName;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "journal_id", nullable = false, unique = true)
+    @JoinColumn(name = "journal_id", unique = true)
     private Journal journal;
 
     public static boolean validateName(String name) {
@@ -42,6 +43,7 @@ public class User {
     }
 
     protected User() {
+        this.journal = new Journal();
     }
 
     public User(String userName, String firstName, String lastName) {
@@ -50,6 +52,10 @@ public class User {
         this.setLastName(lastName);
 
         this.journal = new Journal();
+    }
+
+    public void addJournalEntry(JournalEntry entry) {
+        journal.addEntry(entry);
     }
 
     public Long getUserId() {
@@ -87,6 +93,10 @@ public class User {
             throw new NameInvalidException(lastName);
 
         this.lastName = lastName;
+    }
+
+    public Journal getJournal() {
+        return journal;
     }
 
     @Override
