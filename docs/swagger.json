@@ -192,7 +192,7 @@
               "$ref": "#/definitions/JournalEntry"
             }
           },
-          "400": {
+          "403": {
             "description": "An entry already exists for today."
           },
           "404": {

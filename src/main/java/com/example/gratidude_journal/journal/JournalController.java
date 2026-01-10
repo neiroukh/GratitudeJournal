@@ -12,16 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 */
 @RestController
 public class JournalController {
+    private final JournalService journalService;
+
+    public JournalController(JournalService journalService) {
+        this.journalService = journalService;
+    }
+
     @PostMapping("/journaling/{userName}")
     @ResponseStatus(HttpStatus.CREATED)
     public void addEntry(@PathVariable String userName, @RequestBody JournalEntry newEntry) {
-        /*
-         * repository.findByUserName(userName)
-         * .map(foundUser -> {
-         * foundUser.addJournalEntry(newEntry);
-         * return repository.save(foundUser);
-         * })
-         * .orElseThrow(() -> new UserNotFoundException(userName));
-         */
+        journalService.addEntry(userName, newEntry);
     }
 }
