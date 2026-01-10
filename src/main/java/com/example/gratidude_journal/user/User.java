@@ -1,5 +1,7 @@
 package com.example.gratidude_journal.user;
 
+import com.example.gratidude_journal.user.exception.*;
+
 import java.util.Objects;
 
 import jakarta.persistence.Entity;

@@ -1,5 +1,7 @@
 package com.example.gratidude_journal.journal;
 
+import com.example.gratidude_journal.journal.exception.*;
+
 import java.util.Objects;
 import java.time.LocalDate;
 import java.util.HashSet;

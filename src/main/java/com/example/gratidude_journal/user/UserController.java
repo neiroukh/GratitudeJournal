@@ -1,6 +1,7 @@
 package com.example.gratidude_journal.user;
 
 import com.example.gratidude_journal.journal.*;
+import com.example.gratidude_journal.user.exception.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -100,6 +101,5 @@ public class UserController {
                     return repository.save(foundUser);
                 })
                 .orElseThrow(() -> new UserNotFoundException(userName));
-
     }
 }
