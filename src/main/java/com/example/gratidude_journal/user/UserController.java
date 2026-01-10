@@ -1,7 +1,5 @@
 package com.example.gratidude_journal.user;
 
-import com.example.gratidude_journal.user.exception.*;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,41 +21,29 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 */
 @RestController
 public class UserController {
-    private final UserRepository repository;
+    private final UserService userService;
 
-    public UserController(UserRepository repository) {
-        this.repository = repository;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/user/{userName}")
-    public EntityModel<User> getUserByUserName(@PathVariable String userName) {
-        if (!User.validateName(userName))
-            throw new NameInvalidException(userName);
-
-        User user = repository.findByUserName(userName)
-                .orElseThrow(() -> new UserNotFoundException(userName));
+    public EntityModel<User> getUser(@PathVariable String userName) {
+        User user = userService.getUserByUserName(userName);
 
         return EntityModel.of(user,
-                linkTo(methodOn(UserController.class).getUserByUserName(userName)).withSelfRel(),
-                linkTo(methodOn(UserController.class).deleteUserByUserName(userName)).withRel("delete"),
+                linkTo(methodOn(UserController.class).getUser(userName)).withSelfRel(),
+                linkTo(methodOn(UserController.class).deleteUser(userName)).withRel("delete"),
                 linkTo(methodOn(UserController.class).updateUser(null)).withRel("update"),
                 linkTo(methodOn(UserController.class).createUser(null)).withRel("create"));
     }
 
     @DeleteMapping("/user/{userName}")
-    public ResponseEntity<RepresentationModel<?>> deleteUserByUserName(@PathVariable String userName) {
-        if (!User.validateName(userName))
-            throw new NameInvalidException(userName);
-
-        repository.findByUserName(userName)
-                .ifPresentOrElse(
-                        foundUser -> repository.deleteById(foundUser.getUserId()),
-                        () -> {
-                            throw new UserNotFoundException(userName);
-                        });
+    public ResponseEntity<RepresentationModel<?>> deleteUser(@PathVariable String userName) {
+        userService.deleteUserByUserName(userName);
 
         RepresentationModel<?> model = new RepresentationModel<>();
-        model.add(linkTo(methodOn(UserController.class).deleteUserByUserName(userName)).withSelfRel());
+        model.add(linkTo(methodOn(UserController.class).deleteUser(userName)).withSelfRel());
         model.add(linkTo(methodOn(UserController.class).createUser(null)).withRel("create"));
         return ResponseEntity.ok(model);
     }
@@ -65,32 +51,23 @@ public class UserController {
     @PostMapping("/user")
     @ResponseStatus(HttpStatus.CREATED)
     public EntityModel<User> createUser(@RequestBody User newUser) {
-        if (repository.findByUserName(newUser.getUserName()).isPresent())
-            throw new UserNameTakenException(newUser.getUserName());
-
-        User user = repository.save(newUser);
+        User user = userService.saveUser(newUser);
 
         return EntityModel.of(user,
                 linkTo(methodOn(UserController.class).createUser(null)).withSelfRel(),
-                linkTo(methodOn(UserController.class).deleteUserByUserName(user.getUserName())).withRel("delete"),
+                linkTo(methodOn(UserController.class).deleteUser(user.getUserName())).withRel("delete"),
                 linkTo(methodOn(UserController.class).updateUser(null)).withRel("update"),
-                linkTo(methodOn(UserController.class).getUserByUserName(user.getUserName())).withRel("get"));
+                linkTo(methodOn(UserController.class).getUser(user.getUserName())).withRel("get"));
     }
 
     @PutMapping("/user")
     public EntityModel<User> updateUser(@RequestBody User updatedUser) {
-        User user = repository.findByUserName(updatedUser.getUserName())
-                .map(foundUser -> {
-                    foundUser.setFirstName(updatedUser.getFirstName());
-                    foundUser.setLastName(updatedUser.getLastName());
-                    return repository.save(foundUser);
-                })
-                .orElseThrow(() -> new UserNotFoundException(updatedUser.getUserName()));
+        User user = userService.updateUser(updatedUser);
 
         return EntityModel.of(user,
                 linkTo(methodOn(UserController.class).createUser(null)).withRel("create"),
-                linkTo(methodOn(UserController.class).deleteUserByUserName(user.getUserName())).withRel("delete"),
+                linkTo(methodOn(UserController.class).deleteUser(user.getUserName())).withRel("delete"),
                 linkTo(methodOn(UserController.class).updateUser(null)).withSelfRel(),
-                linkTo(methodOn(UserController.class).getUserByUserName(user.getUserName())).withRel("get"));
+                linkTo(methodOn(UserController.class).getUser(user.getUserName())).withRel("get"));
     }
 }

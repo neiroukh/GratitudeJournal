@@ -162,7 +162,7 @@ class UserApiTest {
 	@Test
 	void updateUserThatDoesNotExist() {
 		requestPutUser("IDoNotExist", "firstName", "lastName")
-		.expectStatus().isNotFound();
+				.expectStatus().isNotFound();
 	}
 
 	@Test
