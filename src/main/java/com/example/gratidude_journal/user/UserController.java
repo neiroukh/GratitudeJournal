@@ -2,8 +2,6 @@ package com.example.gratidude_journal.user;
 
 import com.example.gratidude_journal.journal.*;
 
-import java.util.Optional;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
