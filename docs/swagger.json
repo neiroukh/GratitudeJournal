@@ -16,7 +16,7 @@
       "description": "Operations about users"
     },
     {
-      "name": "journaling",
+      "name": "journal",
       "description": "Operations about journaling"
     }
   ],
@@ -160,7 +160,7 @@
     "/journal/{userName}": {
       "post": {
         "tags": [
-          "journaling"
+          "journal"
         ],
         "summary": "Add a journal entry for a user.",
         "description": "",
