@@ -18,7 +18,7 @@ public class JournalController {
         this.journalService = journalService;
     }
 
-    @PostMapping("/journaling/{userName}")
+    @PostMapping("/journal/{userName}")
     @ResponseStatus(HttpStatus.CREATED)
     public void addEntry(@PathVariable String userName, @RequestBody JournalEntry newEntry) {
         journalService.addEntry(userName, newEntry);

@@ -52,6 +52,10 @@ public class Journal {
         return journalEntries.stream().anyMatch(entry -> today.equals(entry.getDate()));
     }
 
+    public Set<JournalEntry> getJournalEntries() {
+        return journalEntries;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)

@@ -26,7 +26,7 @@ public class JournalEntry {
     @JoinColumn(name = "journal_id")
     private Journal journal;
 
-    private enum WellBeing {
+    public enum WellBeing {
         AWFUL,
         BAD,
         MILDLY_BAD,

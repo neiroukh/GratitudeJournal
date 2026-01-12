@@ -18,9 +18,35 @@ import org.springframework.test.web.servlet.client.RestTestClient.ResponseSpec;
 @AutoConfigureRestTestClient
 class JournalApiTest {
 
-    @LocalServerPort
-    private int port;
+	@LocalServerPort
+	private int port;
 
-    @Autowired
-    private RestTestClient restTestClient;
+	@Autowired
+	private RestTestClient restTestClient;
+
+	// private final JournalService journalService;
+
+	public JournalApiTest() {// JournalService journalService) {
+		// this.journalService = journalService;
+	}
+
+	ResponseSpec requestAddEntry(String userName, JournalEntry.WellBeing wellBeing, String gratefullForToday,
+			String gratefullForTodayDescription, String gratefullForInLife, String gratefullForInLifeDescription) {
+		JournalEntryDTO newEntry = new JournalEntryDTO(wellBeing, gratefullForToday, gratefullForTodayDescription,
+				gratefullForInLife, gratefullForInLifeDescription);
+		return restTestClient.post()
+				.uri("http://localhost:%d/journal/%s".formatted(port, userName))
+				.body(newEntry)
+				.exchange();
+	}
+
+	@Test
+	void addValidEntry() {
+		requestAddEntry("test1UserName", JournalEntry.WellBeing.GOOD, "Portal 2", "Great videogame", "Kurzgesagt",
+				"Makes Science even more awsome")
+				.expectStatus().isCreated();
+
+		// journalService.getEntry("test1UserName",
+		// LocalDate.now()).getGratefullForToday().equals("Portal 2");
+	}
 }

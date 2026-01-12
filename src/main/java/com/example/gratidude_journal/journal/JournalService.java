@@ -3,9 +3,10 @@ package com.example.gratidude_journal.journal;
 import com.example.gratidude_journal.user.User;
 
 import com.example.gratidude_journal.user.UserService;
+
+import java.time.LocalDate;
+
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 /*
     Service Layer for Journal-API
@@ -18,10 +19,17 @@ public class JournalService {
         this.userService = userService;
     }
 
-    public void addEntry(@PathVariable String userName, @RequestBody JournalEntry newEntry) {
+    public void addEntry(String userName, JournalEntry newEntry) {
         User user = userService.getUserByUserName(userName);
 
         user.addJournalEntry(newEntry);
         userService.saveUser(userName);
+    }
+
+    public JournalEntry getEntry(String userName, LocalDate date) {
+        User user = userService.getUserByUserName(userName);
+
+        return user.getJournal().getJournalEntries().stream().filter(entry -> entry.getDate().equals(date)).findFirst()
+                .get();
     }
 }
