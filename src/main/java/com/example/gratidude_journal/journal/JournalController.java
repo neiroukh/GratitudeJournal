@@ -26,9 +26,14 @@ public class JournalController {
         return journalService.getEntries(userName);
     }
 
-    @PostMapping("/journal/entry/{userName}")
+    @PostMapping("/journal/{userName}")
     @ResponseStatus(HttpStatus.CREATED)
     public void addEntry(@PathVariable String userName, @RequestBody JournalEntry newEntry) {
         journalService.addEntry(userName, newEntry);
+    }
+
+    @GetMapping("/journal/entry/{journalEntryId}")
+    public JournalEntry getEntry(@PathVariable Long journalEntryId) {
+        return journalService.getEntry(journalEntryId);
     }
 }

@@ -10,7 +10,13 @@ public class JournalExceptionHandler {
 
     @ExceptionHandler(EntryAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    String userNameTakenHandler(EntryAlreadyExistsException ex) {
+    String entryAlreadyExistsHandler(EntryAlreadyExistsException ex) {
+        return ex.getMessage();
+    }
+
+    @ExceptionHandler(EntryNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    String entryDoesNotExistHandler(EntryNotFoundException ex) {
         return ex.getMessage();
     }
 }

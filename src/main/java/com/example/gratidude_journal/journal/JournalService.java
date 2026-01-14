@@ -1,10 +1,12 @@
 package com.example.gratidude_journal.journal;
 
+import com.example.gratidude_journal.journal.exception.EntryNotFoundException;
 import com.example.gratidude_journal.user.User;
 
 import com.example.gratidude_journal.user.UserService;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -24,7 +26,7 @@ public class JournalService {
     public void addEntry(String userName, JournalEntry newEntry) {
         User user = userService.getUserByUserName(userName);
 
-        user.addJournalEntry(newEntry);
+        user.getJournal().addEntry(newEntry);
         userService.saveUser(userName);
     }
 
@@ -32,5 +34,14 @@ public class JournalService {
         User user = userService.getUserByUserName(userName);
 
         return entryRepository.getEntriesByJournalId(user.getJournal().getJournalId());
+    }
+
+    public JournalEntry getEntry(Long journalEntryId) {
+        Optional<JournalEntry> entry = entryRepository.findById(journalEntryId);
+
+        if (!entry.isPresent())
+            throw new EntryNotFoundException(journalEntryId);
+
+        return entry.get();
     }
 }

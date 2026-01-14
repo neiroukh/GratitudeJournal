@@ -13,7 +13,6 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 
 import com.example.gratidude_journal.journal.Journal;
-import com.example.gratidude_journal.journal.JournalEntry;
 
 /*
     Part of the Persistence Layer for User-API
@@ -57,10 +56,6 @@ public class User {
         this.setLastName(lastName);
 
         this.journal = new Journal();
-    }
-
-    public void addJournalEntry(JournalEntry entry) {
-        journal.addEntry(entry);
     }
 
     public Long getUserId() {
