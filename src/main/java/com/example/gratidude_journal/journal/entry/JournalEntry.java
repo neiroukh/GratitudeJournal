@@ -1,4 +1,6 @@
-package com.example.gratidude_journal.journal;
+package com.example.gratidude_journal.journal.entry;
+
+import com.example.gratidude_journal.journal.Journal;
 
 import java.time.LocalDate;
 import java.util.Objects;

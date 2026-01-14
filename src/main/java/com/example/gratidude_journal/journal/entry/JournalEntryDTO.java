@@ -1,4 +1,4 @@
-package com.example.gratidude_journal.journal;
+package com.example.gratidude_journal.journal.entry;
 
 public record JournalEntryDTO(JournalEntry.WellBeing wellBeing,
         String gratefullForToday,

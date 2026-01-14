@@ -1,5 +1,8 @@
 package com.example.gratidude_journal.journal;
 
+import com.example.gratidude_journal.journal.entry.JournalEntry;
+import com.example.gratidude_journal.journal.entry.JournalEntryDTO;
+
 import com.example.gratidude_journal.TestcontainersConfiguration;
 
 import org.junit.jupiter.api.Test;

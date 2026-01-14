@@ -1,5 +1,6 @@
 package com.example.gratidude_journal.journal;
 
+import com.example.gratidude_journal.journal.entry.JournalEntry;
 import com.example.gratidude_journal.journal.exception.*;
 
 import java.util.Objects;
