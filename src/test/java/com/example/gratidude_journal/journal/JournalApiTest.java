@@ -2,18 +2,16 @@ package com.example.gratidude_journal.journal;
 
 import com.example.gratidude_journal.journal.entry.IdDatePairDTO;
 import com.example.gratidude_journal.journal.entry.JournalEntry;
-import com.example.gratidude_journal.journal.entry.JournalEntry.WellBeing;
 import com.example.gratidude_journal.journal.entry.JournalEntryDTO;
 
 import com.example.gratidude_journal.TestcontainersConfiguration;
 
-import org.apache.catalina.connector.Response;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.time.LocalDate;
-import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient;
@@ -35,19 +33,13 @@ class JournalApiTest {
 	@Autowired
 	private RestTestClient restTestClient;
 
-	// @Autowired
-	// private JournalService journalService;
-
 	public JournalApiTest() {
 	}
 
-	ResponseSpec requestAddEntry(String userName, JournalEntry.WellBeing wellBeing, String gratefullForToday,
-			String gratefullForTodayDescription, String gratefullForInLife, String gratefullForInLifeDescription) {
-		JournalEntryDTO newEntry = new JournalEntryDTO(wellBeing, gratefullForToday, gratefullForTodayDescription,
-				gratefullForInLife, gratefullForInLifeDescription);
+	ResponseSpec requestAddEntry(String userName, JournalEntryDTO entryDTO) {
 		return restTestClient.post()
 				.uri("http://localhost:%d/journal/%s".formatted(port, userName))
-				.body(newEntry)
+				.body(entryDTO)
 				.exchange();
 	}
 
@@ -55,6 +47,11 @@ class JournalApiTest {
 		return restTestClient.get()
 				.uri("http://localhost:%d/journal/%s".formatted(port, userName))
 				.exchange();
+	}
+
+	IdDatePairDTO[] requestGetEntriesWithResult(String userName) {
+		return requestGetEntries(userName).expectStatus().isOk()
+				.expectBody(IdDatePairDTO[].class).returnResult().getResponseBody();
 	}
 
 	ResponseSpec requestGetEntry(Long journalEntryId) {
@@ -65,15 +62,11 @@ class JournalApiTest {
 
 	@Test
 	void addEntry() {
-		WellBeing wellBeing = JournalEntry.WellBeing.GOOD;
-		String gft = "A";
-		String gft_desc = "AAA";
-		String gfl = "B";
-		String gfl_desc = "BBB";
-		requestAddEntry("test1UserNameJournal", wellBeing, gft, gft_desc, gfl, gfl_desc).expectStatus().isCreated();
+		JournalEntryDTO entryDTO = new JournalEntryDTO(JournalEntry.WellBeing.GOOD, "Cake", "Cake is tasty.",
+				"Computers", "They empower me to do awesome things.");
+		requestAddEntry("test1UserNameJournal", entryDTO).expectStatus().isCreated();
 
-		IdDatePairDTO[] entries = requestGetEntries("test1UserNameJournal").expectStatus().isOk()
-				.expectBody(IdDatePairDTO[].class).returnResult().getResponseBody();
+		IdDatePairDTO[] entries = requestGetEntriesWithResult("test1UserNameJournal");
 
 		assertNotNull(entries);
 		assertEquals(entries.length, 1);
@@ -82,32 +75,53 @@ class JournalApiTest {
 
 		requestGetEntry(entries[0].id()).expectStatus().isOk().expectBody(JournalEntry.class)
 				.value(entry -> {
-					org.junit.jupiter.api.Assertions.assertEquals(wellBeing, entry.getWellBeing());
-					org.junit.jupiter.api.Assertions.assertEquals(gft, entry.getGratefullForToday());
-					org.junit.jupiter.api.Assertions.assertEquals(gft_desc, entry.getGratefullForTodayDescription());
-					org.junit.jupiter.api.Assertions.assertEquals(gfl, entry.getGratefullForInLife());
-					org.junit.jupiter.api.Assertions.assertEquals(gfl_desc, entry.getGratefullForInLifeDescription());
+					assertTrue(JournalEntryDTO.compareToEntry(entryDTO, entry));
 				});
-		;
 	}
 
 	@Test
 	void addEntryThatDoesExist() {
-		requestAddEntry("test1UserNameJournal", JournalEntry.WellBeing.GOOD, "A", "AAA", "B",
-				"BBB")
-				.expectStatus().isForbidden();
+		JournalEntryDTO entryDTO = new JournalEntryDTO(JournalEntry.WellBeing.GOOD, "A", "AAA", "B",
+				"BBB");
+
+		requestAddEntry("test1UserNameJournal", entryDTO).expectStatus().isForbidden();
 	}
 
 	@Test
 	void addEntryForInvalidUser() {
-		requestAddEntry("thisUserDoesNotExist", JournalEntry.WellBeing.GOOD, "A", "AAA", "B",
-				"BBB")
-				.expectStatus().isNotFound();
+		JournalEntryDTO entryDTO = new JournalEntryDTO(JournalEntry.WellBeing.GOOD, "A", "AAA", "B",
+				"BBB");
+
+		requestAddEntry("thisUserDoesNotExist", entryDTO).expectStatus().isNotFound();
 	}
 
 	@Test
 	void getEntries() {
-		requestGetEntries("test2UserNameJournal").expectStatus().isOk();
+		IdDatePairDTO[] entries = requestGetEntriesWithResult("test2UserNameJournal");
+		assertNotNull(entries);
+		assertEquals(entries.length, 0);
+
+		JournalEntryDTO entryDTO_1 = new JournalEntryDTO(JournalEntry.WellBeing.FANTASTIC, "A", "AAA", "B",
+				"BBB");
+
+		requestAddEntry("test2UserNameJournal", entryDTO_1).expectStatus().isCreated();
+
+		entries = requestGetEntriesWithResult("test2UserNameJournal");
+		assertNotNull(entries);
+		assertEquals(entries.length, 1);
+		assertNotNull(entries[0].id());
+		assertEquals(entries[0].date(), LocalDate.now());
+
+		requestGetEntry(entries[0].id()).expectStatus().isOk().expectBody(JournalEntry.class)
+				.value(entry -> {
+					assertTrue(JournalEntryDTO.compareToEntry(entryDTO_1, entry));
+				});
+
+		requestAddEntry("test2UserNameJournal", entryDTO_1).expectStatus().isForbidden();
+
+		entries = requestGetEntriesWithResult("test2UserNameJournal");
+		assertNotNull(entries);
+		assertEquals(entries.length, 1);
 	}
 
 	@Test
