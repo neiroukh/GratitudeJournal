@@ -113,7 +113,7 @@
           }
         ],
         "responses": {
-          "201": {
+          "200": {
             "description": "User updated successfully"
           },
           "400": {
