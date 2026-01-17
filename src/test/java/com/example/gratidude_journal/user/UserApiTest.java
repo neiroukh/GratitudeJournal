@@ -95,7 +95,7 @@ class UserApiTest {
 
 	@Test
 	void getUserThatDoesNotExist() {
-		requestGetUser("test4UserName")
+		requestGetUser("thisUserDoesNotExist")
 				.expectStatus().isNotFound();
 	}
 
@@ -108,7 +108,7 @@ class UserApiTest {
 	@Test
 	void deleteUser() {
 		requestDeleteUser("test3UserName")
-				.expectStatus().isOk();
+				.expectStatus().isNoContent();
 
 		requestGetUser("test3UserName")
 				.expectStatus().isNotFound();

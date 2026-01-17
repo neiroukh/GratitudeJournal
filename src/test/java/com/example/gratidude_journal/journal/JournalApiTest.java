@@ -195,7 +195,7 @@ class JournalApiTest {
 
 		requestGetEntry(enryId).expectStatus().isOk();
 
-		requestDeleteEntry(enryId).expectStatus().isOk();
+		requestDeleteEntry(enryId).expectStatus().isNoContent();
 
 		entries = requestGetEntriesWithResult("test4UserNameJournal");
 		assertNotNull(entries);

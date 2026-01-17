@@ -49,6 +49,7 @@ public class JournalController {
     }
 
     @DeleteMapping("/journal/entry/{journalEntryId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteEntry(@PathVariable Long journalEntryId) {
         journalService.deleteEntry(journalEntryId);
     }

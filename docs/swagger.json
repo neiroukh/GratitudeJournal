@@ -71,7 +71,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "204": {
             "description": "User removed successfully"
           },
           "400": {
@@ -317,8 +317,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Success"
+          "204": {
+            "description": "Entry removed successfully"
           },
           "404": {
             "description": "Entry not found"
