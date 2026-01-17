@@ -17,9 +17,15 @@ public class UserService {
         this.repository = repository;
     }
 
-    private void validateName(String userName) {
-        if (!User.validateName(userName))
-            throw new NameInvalidException(userName);
+    private void validateName(String name) {
+        if (!User.validateName(name))
+            throw new NameInvalidException(name);
+    }
+
+    private void validateName(String userName, UserUpdateDTO userUpdateDTO) {
+        validateName(userName);
+        validateName(userUpdateDTO.firstName());
+        validateName(userUpdateDTO.lastName());
     }
 
     private void validateName(User user) {
@@ -48,6 +54,18 @@ public class UserService {
                         });
     }
 
+    public User updateUser(String userName, UserUpdateDTO updatedUser) {
+        validateName(userName, updatedUser);
+
+        return repository.findByUserName(userName)
+                .map(foundUser -> {
+                    foundUser.setFirstName(updatedUser.firstName());
+                    foundUser.setLastName(updatedUser.lastName());
+                    return repository.save(foundUser);
+                })
+                .orElseThrow(() -> new UserNotFoundException(userName));
+    }
+
     public User createUser(User newUser) {
         validateName(newUser);
 
@@ -55,18 +73,6 @@ public class UserService {
             throw new UserNameTakenException(newUser.getUserName());
 
         return repository.save(newUser);
-    }
-
-    public User updateUser(User updatedUser) {
-        validateName(updatedUser);
-
-        return repository.findByUserName(updatedUser.getUserName())
-                .map(foundUser -> {
-                    foundUser.setFirstName(updatedUser.getFirstName());
-                    foundUser.setLastName(updatedUser.getLastName());
-                    return repository.save(foundUser);
-                })
-                .orElseThrow(() -> new UserNotFoundException(updatedUser.getUserName()));
     }
 
     public User saveUser(String userName) {

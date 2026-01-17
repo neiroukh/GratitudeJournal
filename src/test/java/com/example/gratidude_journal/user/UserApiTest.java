@@ -50,6 +50,25 @@ class UserApiTest {
 				.exchange();
 	}
 
+	ResponseSpec requestPutUser(String userName, String firstName, String lastName) {
+		UserUpdateDTO updatedUser = new UserUpdateDTO(firstName, lastName);
+		return restTestClient.put().uri("http://localhost:%d/user/%s".formatted(port, userName))
+				.body(updatedUser)
+				.exchange();
+	}
+
+	void requestAndValidatePutUser(String userName, String firstName, String lastName) {
+		requestPutUser(userName, firstName, lastName)
+				.expectStatus().isOk()
+				.expectBody(User.class)
+				.value(user -> {
+					assertEquals(userName, user.getUserName());
+					assertEquals(firstName, user.getFirstName());
+					assertEquals(lastName, user.getLastName());
+					assertNotNull(user.getUserId());
+				});
+	}
+
 	ResponseSpec requestPostUser(String userName, String firstName, String lastName) {
 		UserDTO newUser = new UserDTO(userName, firstName, lastName);
 		return restTestClient.post().uri("/user")
@@ -60,25 +79,6 @@ class UserApiTest {
 	void requestAndValidatePostUser(String userName, String firstName, String lastName) {
 		requestPostUser(userName, firstName, lastName)
 				.expectStatus().isCreated()
-				.expectBody(User.class)
-				.value(user -> {
-					assertEquals(userName, user.getUserName());
-					assertEquals(firstName, user.getFirstName());
-					assertEquals(lastName, user.getLastName());
-					assertNotNull(user.getUserId());
-				});
-	}
-
-	ResponseSpec requestPutUser(String userName, String firstName, String lastName) {
-		UserDTO updatedUser = new UserDTO(userName, firstName, lastName);
-		return restTestClient.put().uri("/user")
-				.body(updatedUser)
-				.exchange();
-	}
-
-	void requestAndValidatePutUser(String userName, String firstName, String lastName) {
-		requestPutUser(userName, firstName, lastName)
-				.expectStatus().isOk()
 				.expectBody(User.class)
 				.value(user -> {
 					assertEquals(userName, user.getUserName());
@@ -122,7 +122,32 @@ class UserApiTest {
 
 	@Test
 	void deleteUserWithInvalidName() {
-		requestDeleteUser("t")
+		requestDeleteUser("I")
+				.expectStatus().isBadRequest();
+	}
+
+	@Test
+	void updateUserThatDoesExist() {
+		requestAndValidateGetUser("test2UserName", "test2FirstName", "test2LastName");
+
+		requestAndValidatePutUser("test2UserName", "firstNameUpdated", "lastNameUpdated");
+
+		requestAndValidateGetUser("test2UserName", "firstNameUpdated", "lastNameUpdated");
+	}
+
+	@Test
+	void updateUserThatDoesNotExist() {
+		requestPutUser("IDoNotExist", "firstName", "lastName")
+				.expectStatus().isNotFound();
+	}
+
+	@Test
+	void updateUserWithInvalidName() {
+		requestPutUser("I", "firstName", "lastName")
+				.expectStatus().isBadRequest();
+		requestPutUser("test2UserName", "", "lastName")
+				.expectStatus().isBadRequest();
+		requestPutUser("test2UserName", "firstName", "")
 				.expectStatus().isBadRequest();
 	}
 
@@ -149,31 +174,6 @@ class UserApiTest {
 		requestPostUser("userName", "", "lastName")
 				.expectStatus().isBadRequest();
 		requestPostUser("userName", "firstName", "")
-				.expectStatus().isBadRequest();
-	}
-
-	@Test
-	void updateUserThatDoesExist() {
-		requestAndValidateGetUser("test2UserName", "test2FirstName", "test2LastName");
-
-		requestAndValidatePutUser("test2UserName", "firstNameUpdated", "lastNameUpdated");
-
-		requestAndValidateGetUser("test2UserName", "firstNameUpdated", "lastNameUpdated");
-	}
-
-	@Test
-	void updateUserThatDoesNotExist() {
-		requestPutUser("IDoNotExist", "firstName", "lastName")
-				.expectStatus().isNotFound();
-	}
-
-	@Test
-	void updateUserWithInvalidName() {
-		requestPutUser("", "firstName", "lastName")
-				.expectStatus().isBadRequest();
-		requestPutUser("test2UserName", "", "lastName")
-				.expectStatus().isBadRequest();
-		requestPutUser("test2UserName", "firstName", "")
 				.expectStatus().isBadRequest();
 	}
 }

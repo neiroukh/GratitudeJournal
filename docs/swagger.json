@@ -81,6 +81,48 @@
             "description": "User does not exist"
           }
         }
+      },
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Update an existing user",
+        "description": "Update any User variable except the userName and userId.",
+        "operationId": "updateUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Updated user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NewUser"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User updated successfully"
+          },
+          "400": {
+            "description": "Parameters malformed"
+          },
+          "404": {
+            "description": "User does not exist"
+          }
+        }
       }
     },
     "/user": {
@@ -117,42 +159,6 @@
           },
           "403": {
             "description": "A user with the same userName already exists"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Update an existing user",
-        "description": "Update any User variable except the userName and userId.",
-        "operationId": "updateUser",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Updated user object",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/NewUser"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "User updated successfully"
-          },
-          "400": {
-            "description": "Parameters malformed"
-          },
-          "404": {
-            "description": "User does not exist"
           }
         }
       }

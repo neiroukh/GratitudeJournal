@@ -31,7 +31,7 @@ public class UserController {
 
         return EntityModel.of(user,
                 linkTo(methodOn(UserController.class).getUser(userName)).withSelfRel(),
-                linkTo(methodOn(UserController.class).updateUser(null)).withRel("update"),
+                linkTo(methodOn(UserController.class).updateUser(userName, null)).withRel("update"),
                 linkTo(methodOn(UserController.class).createUser(null)).withRel("create"));
     }
 
@@ -41,6 +41,16 @@ public class UserController {
         userService.deleteUserByUserName(userName);
     }
 
+    @PutMapping("/user/{userName}")
+    public EntityModel<User> updateUser(@PathVariable String userName, @RequestBody UserUpdateDTO updatedUser) {
+        User user = userService.updateUser(userName, updatedUser);
+
+        return EntityModel.of(user,
+                linkTo(methodOn(UserController.class).createUser(null)).withRel("create"),
+                linkTo(methodOn(UserController.class).updateUser(userName, null)).withSelfRel(),
+                linkTo(methodOn(UserController.class).getUser(userName)).withRel("get"));
+    }
+
     @PostMapping("/user")
     @ResponseStatus(HttpStatus.CREATED)
     public EntityModel<User> createUser(@RequestBody User newUser) {
@@ -48,17 +58,7 @@ public class UserController {
 
         return EntityModel.of(user,
                 linkTo(methodOn(UserController.class).createUser(null)).withSelfRel(),
-                linkTo(methodOn(UserController.class).updateUser(null)).withRel("update"),
-                linkTo(methodOn(UserController.class).getUser(user.getUserName())).withRel("get"));
-    }
-
-    @PutMapping("/user")
-    public EntityModel<User> updateUser(@RequestBody User updatedUser) {
-        User user = userService.updateUser(updatedUser);
-
-        return EntityModel.of(user,
-                linkTo(methodOn(UserController.class).createUser(null)).withRel("create"),
-                linkTo(methodOn(UserController.class).updateUser(null)).withSelfRel(),
+                linkTo(methodOn(UserController.class).updateUser(user.getUserName(), null)).withRel("update"),
                 linkTo(methodOn(UserController.class).getUser(user.getUserName())).withRel("get"));
     }
 }
