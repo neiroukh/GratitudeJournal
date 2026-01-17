@@ -1,5 +1,8 @@
 package com.example.gratidude_journal.user;
 
+import com.example.gratidude_journal.user.dto.NewUserDTO;
+import com.example.gratidude_journal.user.dto.UpdateUserDTO;
+
 import org.springframework.stereotype.Service;
 
 import com.example.gratidude_journal.user.exception.NameInvalidException;
@@ -22,13 +25,13 @@ public class UserService {
             throw new NameInvalidException(name);
     }
 
-    private void validateName(String userName, UserUpdateDTO userUpdateDTO) {
+    private void validateName(String userName, UpdateUserDTO userUpdateDTO) {
         validateName(userName);
         validateName(userUpdateDTO.firstName());
         validateName(userUpdateDTO.lastName());
     }
 
-    private void validateName(UserDTO user) {
+    private void validateName(NewUserDTO user) {
         validateName(user.userName());
         validateName(user.firstName());
         validateName(user.lastName());
@@ -54,25 +57,25 @@ public class UserService {
                         });
     }
 
-    public User updateUser(String userName, UserUpdateDTO updatedUser) {
-        validateName(userName, updatedUser);
+    public User updateUser(String userName, UpdateUserDTO updateUserDTO) {
+        validateName(userName, updateUserDTO);
 
         return repository.findByUserName(userName)
                 .map(foundUser -> {
-                    foundUser.setFirstName(updatedUser.firstName());
-                    foundUser.setLastName(updatedUser.lastName());
+                    foundUser.setFirstName(updateUserDTO.firstName());
+                    foundUser.setLastName(updateUserDTO.lastName());
                     return repository.save(foundUser);
                 })
                 .orElseThrow(() -> new UserNotFoundException(userName));
     }
 
-    public User createUser(UserDTO userDTO) {
-        validateName(userDTO);
+    public User createUser(NewUserDTO newUserDTO) {
+        validateName(newUserDTO);
 
-        if (repository.findByUserName(userDTO.userName()).isPresent())
-            throw new UserNameTakenException(userDTO.userName());
+        if (repository.findByUserName(newUserDTO.userName()).isPresent())
+            throw new UserNameTakenException(newUserDTO.userName());
 
-        User user = new User(userDTO.userName(), userDTO.firstName(), userDTO.lastName());
+        User user = new User(newUserDTO.userName(), newUserDTO.firstName(), newUserDTO.lastName());
         return repository.save(user);
     }
 

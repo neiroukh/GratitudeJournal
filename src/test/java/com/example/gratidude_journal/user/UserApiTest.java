@@ -1,5 +1,7 @@
 package com.example.gratidude_journal.user;
 
+import com.example.gratidude_journal.user.dto.NewUserDTO;
+import com.example.gratidude_journal.user.dto.UpdateUserDTO;
 import com.example.gratidude_journal.TestcontainersConfiguration;
 
 import org.junit.jupiter.api.Test;
@@ -51,9 +53,9 @@ class UserApiTest {
 	}
 
 	ResponseSpec requestPutUser(String userName, String firstName, String lastName) {
-		UserUpdateDTO updatedUser = new UserUpdateDTO(firstName, lastName);
+		UpdateUserDTO updateNewUserDTO = new UpdateUserDTO(firstName, lastName);
 		return restTestClient.put().uri("http://localhost:%d/user/%s".formatted(port, userName))
-				.body(updatedUser)
+				.body(updateNewUserDTO)
 				.exchange();
 	}
 
@@ -70,9 +72,9 @@ class UserApiTest {
 	}
 
 	ResponseSpec requestPostUser(String userName, String firstName, String lastName) {
-		UserDTO newUser = new UserDTO(userName, firstName, lastName);
+		NewUserDTO newUserDTO = new NewUserDTO(userName, firstName, lastName);
 		return restTestClient.post().uri("/user")
-				.body(newUser)
+				.body(newUserDTO)
 				.exchange();
 	}
 
@@ -153,12 +155,12 @@ class UserApiTest {
 
 	@Test
 	void createUserThatDoesNotExist() {
-		requestGetUser("newUserTestuserName")
+		requestGetUser("newUserDTOTestuserName")
 				.expectStatus().isNotFound();
 
-		requestAndValidatePostUser("newUserTestuserName", "newUserTestfirstName", "newUserTestlastName");
+		requestAndValidatePostUser("newUserDTOTestuserName", "newUserDTOTestfirstName", "newUserDTOTestlastName");
 
-		requestAndValidateGetUser("newUserTestuserName", "newUserTestfirstName", "newUserTestlastName");
+		requestAndValidateGetUser("newUserDTOTestuserName", "newUserDTOTestfirstName", "newUserDTOTestlastName");
 	}
 
 	@Test

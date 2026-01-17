@@ -1,5 +1,8 @@
 package com.example.gratidude_journal.user;
 
+import com.example.gratidude_journal.user.dto.NewUserDTO;
+import com.example.gratidude_journal.user.dto.UpdateUserDTO;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,8 +45,8 @@ public class UserController {
     }
 
     @PutMapping("/user/{userName}")
-    public EntityModel<User> updateUser(@PathVariable String userName, @RequestBody UserUpdateDTO updatedUser) {
-        User user = userService.updateUser(userName, updatedUser);
+    public EntityModel<User> updateUser(@PathVariable String userName, @RequestBody UpdateUserDTO updateUserDTO) {
+        User user = userService.updateUser(userName, updateUserDTO);
 
         return EntityModel.of(user,
                 linkTo(methodOn(UserController.class).createUser(null)).withRel("create"),
@@ -53,8 +56,8 @@ public class UserController {
 
     @PostMapping("/user")
     @ResponseStatus(HttpStatus.CREATED)
-    public EntityModel<User> createUser(@RequestBody UserDTO userDTO) {
-        User user = userService.createUser(userDTO);
+    public EntityModel<User> createUser(@RequestBody NewUserDTO newUserDTO) {
+        User user = userService.createUser(newUserDTO);
 
         return EntityModel.of(user,
                 linkTo(methodOn(UserController.class).createUser(null)).withSelfRel(),

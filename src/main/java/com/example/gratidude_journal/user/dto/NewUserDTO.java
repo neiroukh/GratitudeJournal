@@ -1,9 +1,10 @@
-package com.example.gratidude_journal.user;
+package com.example.gratidude_journal.user.dto;
 
 /*
     Part of the Presentation Layer for User-API
 */
-public record UserUpdateDTO(
+public record NewUserDTO(
+        String userName,
         String firstName,
         String lastName) {
 }
