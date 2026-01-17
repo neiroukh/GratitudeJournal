@@ -1,10 +1,10 @@
 package com.example.gratidude_journal.journal.entry;
 
 public record JournalEntryDTO(JournalEntry.WellBeing wellBeing,
-                String gratefullForToday,
-                String gratefullForTodayDescription,
-                String gratefullForInLife,
-                String gratefullForInLifeDescription) {
+                String gratefulForToday,
+                String gratefulForTodayDescription,
+                String gratefulForInLife,
+                String gratefulForInLifeDescription) {
 
         public static boolean compareToEntry(JournalEntryDTO entryDTO, JournalEntry entry) {
                 if (entryDTO == null && entry == null)
@@ -12,11 +12,11 @@ public record JournalEntryDTO(JournalEntry.WellBeing wellBeing,
                 if (entryDTO == null || entry == null)
                         return false;
                 return entryDTO.wellBeing.equals(entry.getWellBeing())
-                                && entryDTO.gratefullForToday().equals(entry.getGratefullForToday())
-                                && entryDTO.gratefullForTodayDescription()
-                                                .equals(entry.getGratefullForTodayDescription())
-                                && entryDTO.gratefullForInLife().equals(entry.getGratefullForInLife())
-                                && entryDTO.gratefullForInLifeDescription()
-                                                .equals(entry.getGratefullForInLifeDescription());
+                                && entryDTO.gratefulForToday().equals(entry.getGratefulForToday())
+                                && entryDTO.gratefulForTodayDescription()
+                                                .equals(entry.getGratefulForTodayDescription())
+                                && entryDTO.gratefulForInLife().equals(entry.getGratefulForInLife())
+                                && entryDTO.gratefulForInLifeDescription()
+                                                .equals(entry.getGratefulForInLifeDescription());
         }
 }

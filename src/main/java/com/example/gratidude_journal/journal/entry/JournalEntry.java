@@ -44,10 +44,10 @@ public class JournalEntry {
     @Enumerated(EnumType.STRING)
     WellBeing wellBeing;
 
-    String gratefullForToday;
-    String gratefullForTodayDescription;
-    String gratefullForInLife;
-    String gratefullForInLifeDescription;
+    String gratefulForToday;
+    String gratefulForTodayDescription;
+    String gratefulForInLife;
+    String gratefulForInLifeDescription;
 
     public JournalEntry() {
         this.date = LocalDate.now();
@@ -75,36 +75,36 @@ public class JournalEntry {
         this.wellBeing = wellBeing;
     }
 
-    public String getGratefullForToday() {
-        return this.gratefullForToday;
+    public String getGratefulForToday() {
+        return this.gratefulForToday;
     }
 
-    public void setGratefullForToday(String gratefullForToday) {
-        this.gratefullForToday = gratefullForToday;
+    public void setGratefulForToday(String gratefulForToday) {
+        this.gratefulForToday = gratefulForToday;
     }
 
-    public String getGratefullForTodayDescription() {
-        return this.gratefullForTodayDescription;
+    public String getGratefulForTodayDescription() {
+        return this.gratefulForTodayDescription;
     }
 
-    public void setGratefullForTodayDescription(String gratefullForTodayDescription) {
-        this.gratefullForTodayDescription = gratefullForTodayDescription;
+    public void setGratefulForTodayDescription(String gratefulForTodayDescription) {
+        this.gratefulForTodayDescription = gratefulForTodayDescription;
     }
 
-    public String getGratefullForInLife() {
-        return this.gratefullForInLife;
+    public String getGratefulForInLife() {
+        return this.gratefulForInLife;
     }
 
-    public void setGratefullForInLife(String gratefullForInLife) {
-        this.gratefullForInLife = gratefullForInLife;
+    public void setGratefulForInLife(String gratefulForInLife) {
+        this.gratefulForInLife = gratefulForInLife;
     }
 
-    public String getGratefullForInLifeDescription() {
-        return this.gratefullForInLifeDescription;
+    public String getGratefulForInLifeDescription() {
+        return this.gratefulForInLifeDescription;
     }
 
-    public void setGratefullForInLifeDescription(String gratefullForInLifeDescription) {
-        this.gratefullForInLifeDescription = gratefullForInLifeDescription;
+    public void setGratefulForInLifeDescription(String gratefulForInLifeDescription) {
+        this.gratefulForInLifeDescription = gratefulForInLifeDescription;
     }
 
     @Override
@@ -124,8 +124,8 @@ public class JournalEntry {
 
     @Override
     public String toString() {
-        return "JournalEntry of " + date.toString() + "\n" + "Grateful for today: " + gratefullForToday + ". Reason: "
-                + gratefullForTodayDescription + ".\n" + "Grateful for in life: " + gratefullForInLife + ". Reason: "
-                + gratefullForTodayDescription + ".";
+        return "JournalEntry of " + date.toString() + "\n" + "Grateful for today: " + gratefulForToday + ". Reason: "
+                + gratefulForTodayDescription + ".\n" + "Grateful for in life: " + gratefulForInLife + ". Reason: "
+                + gratefulForTodayDescription + ".";
     }
 }

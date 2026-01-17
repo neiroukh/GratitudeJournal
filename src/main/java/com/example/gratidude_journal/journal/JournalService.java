@@ -28,11 +28,13 @@ public class JournalService {
         this.userService = userService;
     }
 
-    public void addEntry(String userName, JournalEntry newEntry) {
+    public JournalEntry addEntry(String userName, JournalEntry newEntry) {
         User user = userService.getUserByUserName(userName);
 
         user.getJournal().addEntry(newEntry);
         userService.saveUser(userName);
+
+        return newEntry;
     }
 
     public Collection<IdDatePairDTO> getEntries(String userName) {
@@ -54,10 +56,10 @@ public class JournalService {
         return entryRepository.findById(journalEntryId)
                 .map(foundEntry -> {
                     foundEntry.setWellBeing(updatedEntry.wellBeing());
-                    foundEntry.setGratefullForToday(updatedEntry.gratefullForToday());
-                    foundEntry.setGratefullForTodayDescription(updatedEntry.gratefullForTodayDescription());
-                    foundEntry.setGratefullForInLife(updatedEntry.gratefullForInLife());
-                    foundEntry.setGratefullForInLifeDescription(updatedEntry.gratefullForInLifeDescription());
+                    foundEntry.setGratefulForToday(updatedEntry.gratefulForToday());
+                    foundEntry.setGratefulForTodayDescription(updatedEntry.gratefulForTodayDescription());
+                    foundEntry.setGratefulForInLife(updatedEntry.gratefulForInLife());
+                    foundEntry.setGratefulForInLifeDescription(updatedEntry.gratefulForInLifeDescription());
                     return entryRepository.save(foundEntry);
                 })
                 .orElseThrow(() -> new EntryNotFoundException(journalEntryId));

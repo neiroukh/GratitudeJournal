@@ -27,7 +27,6 @@
           "user"
         ],
         "summary": "Creates a new user",
-        "description": "",
         "operationId": "createUser",
         "consumes": [
           "application/json"
@@ -39,7 +38,7 @@
           {
             "in": "body",
             "name": "body",
-            "description": "Created user object",
+            "description": "NewUser object to create a new User based on its values.",
             "required": true,
             "schema": {
               "$ref": "#/definitions/NewUser"
@@ -48,7 +47,10 @@
         ],
         "responses": {
           "201": {
-            "description": "User created successfully"
+            "description": "Returns the successfully created User",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
           },
           "400": {
             "description": "Parameters malformed"
@@ -65,7 +67,6 @@
           "user"
         ],
         "summary": "Get information about a user",
-        "description": "",
         "operationId": "getUser",
         "produces": [
           "application/json"
@@ -80,9 +81,10 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "Returns the requested User Object successfully.",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/User",
+              "description": "The requested User object"
             }
           },
           "400": {
@@ -98,7 +100,6 @@
           "user"
         ],
         "summary": "Removes an already existing user",
-        "description": "",
         "operationId": "removeUser",
         "parameters": [
           {
@@ -125,7 +126,6 @@
           "user"
         ],
         "summary": "Update an existing user",
-        "description": "Update any User variable except the userName and userId.",
         "operationId": "updateUser",
         "consumes": [
           "application/json"
@@ -143,8 +143,8 @@
           {
             "in": "body",
             "name": "body",
-            "description": "Updated user object",
             "required": true,
+            "description": "UpdateUser object to override values of the given User object.",
             "schema": {
               "$ref": "#/definitions/UpdateUser"
             }
@@ -152,7 +152,10 @@
         ],
         "responses": {
           "200": {
-            "description": "User updated successfully"
+            "description": "Return the successfully updated User",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
           },
           "400": {
             "description": "Parameters malformed"
@@ -169,7 +172,6 @@
           "journal"
         ],
         "summary": "Get a list with date:journalEntryId pairs for a user.",
-        "description": "",
         "operationId": "getEntries",
         "produces": [
           "application/json"
@@ -184,7 +186,13 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Returns the requested list of date:journalEntryId pairs successfully",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/DateJournalEntryIdPair"
+              }
+            }
           },
           "404": {
             "description": "User not found"
@@ -196,7 +204,6 @@
           "journal"
         ],
         "summary": "Add a journal entry for a user.",
-        "description": "",
         "operationId": "addEntry",
         "produces": [
           "application/json"
@@ -214,13 +221,13 @@
             "description": "Entry object",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/JournalEntry"
+              "$ref": "#/definitions/NewJournalEntry"
             }
           }
         ],
         "responses": {
-          "200": {
-            "description": "Success",
+          "201": {
+            "description": "Returns the successfully created JournalEntry",
             "schema": {
               "$ref": "#/definitions/JournalEntry"
             }
@@ -240,7 +247,6 @@
           "journal"
         ],
         "summary": "Get details about a journal Entry.",
-        "description": "",
         "operationId": "getEntry",
         "produces": [
           "application/json"
@@ -255,7 +261,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "Returns the requested journalEntry successfully",
             "schema": {
               "$ref": "#/definitions/JournalEntry"
             }
@@ -270,7 +276,6 @@
           "journal"
         ],
         "summary": "Delete a journal entry.",
-        "description": "",
         "operationId": "deleteEntry",
         "produces": [
           "application/json"
@@ -297,8 +302,10 @@
           "journal"
         ],
         "summary": "Update a journal entry.",
-        "description": "",
         "operationId": "updateEntry",
+        "consumes": [
+          "application/json"
+        ],
         "produces": [
           "application/json"
         ],
@@ -307,7 +314,7 @@
             "name": "journalEntryId",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "integer"
           },
           {
             "in": "body",
@@ -315,13 +322,13 @@
             "description": "Entry object",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/JournalEntry"
+              "$ref": "#/definitions/NewJournalEntry"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "Returns the successfully updated JournalEntry object.",
             "schema": {
               "$ref": "#/definitions/JournalEntry"
             }
@@ -339,9 +346,7 @@
       "properties": {
         "userId": {
           "type": "integer",
-          "format": "int64",
-          "minimum": 0,
-          "maximum": 6
+          "format": "int64"
         },
         "userName": {
           "type": "string"
@@ -391,9 +396,15 @@
     "JournalEntry": {
       "type": "object",
       "properties": {
-        "wellBeing": {
+        "journalEntryId": {
           "type": "integer",
           "format": "int64"
+        },
+        "wellBeing": {
+          "type": "integer",
+          "format": "int64",
+          "minimum": 0,
+          "maximum": 6
         },
         "gratefulForToday": {
           "type": "string"
@@ -407,8 +418,43 @@
         "gratefulForInLifeDescription": {
           "type": "string"
         }
-      },
-      "required": []
+      }
+    },
+    "NewJournalEntry": {
+      "type": "object",
+      "properties": {
+        "wellBeing": {
+          "type": "integer",
+          "format": "int64",
+          "minimum": 0,
+          "maximum": 6
+        },
+        "gratefulForToday": {
+          "type": "string"
+        },
+        "gratefulForTodayDescription": {
+          "type": "string"
+        },
+        "gratefulForInLife": {
+          "type": "string"
+        },
+        "gratefulForInLifeDescription": {
+          "type": "string"
+        }
+      }
+    },
+    "DateJournalEntryIdPair": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string",
+          "format": "date"
+        },
+        "journalEntryId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
     }
   }
 }

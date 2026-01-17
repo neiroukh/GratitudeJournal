@@ -34,8 +34,8 @@ public class JournalController {
 
     @PostMapping("/journal/{userName}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addEntry(@PathVariable String userName, @RequestBody JournalEntry newEntry) {
-        journalService.addEntry(userName, newEntry);
+    public JournalEntry addEntry(@PathVariable String userName, @RequestBody JournalEntry newEntry) {
+        return journalService.addEntry(userName, newEntry);
     }
 
     @GetMapping("/journal/entry/{journalEntryId}")
