@@ -15,10 +15,16 @@
 	<description>A web service to keep track of your well being and the things you are grateful for.</description>
 	<url/>
 	<licenses>
-		<license/>
+		<license>
+			<name>Apache-2.0</name>
+			<url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
 	</licenses>
 	<developers>
-		<developer/>
+		<developer>
+			<id>cppcake</id>
+			<name>Afeef Neiroukh</name>
+		</developer>
 	</developers>
 	<scm>
 		<connection/>
