@@ -4,6 +4,7 @@ import com.example.gratidude_journal.user.dto.NewUserDTO;
 import com.example.gratidude_journal.user.dto.UpdateUserDTO;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,8 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.hateoas.EntityModel;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
-
 /*
     Presentation Layer for User-API
 */
@@ -24,34 +23,32 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 public class UserController {
     private final UserService userService;
 
-    public UserController(UserService userService) {
+    private final UserModelAssembler userAssembler;
+
+    public UserController(UserService userService, UserModelAssembler userAssembler) {
         this.userService = userService;
+        this.userAssembler = userAssembler;
     }
 
     @GetMapping("/user/{userName}")
     public EntityModel<User> getUser(@PathVariable String userName) {
         User user = userService.getUserByUserName(userName);
 
-        return EntityModel.of(user,
-                linkTo(methodOn(UserController.class).getUser(userName)).withSelfRel(),
-                linkTo(methodOn(UserController.class).updateUser(userName, null)).withRel("update"),
-                linkTo(methodOn(UserController.class).createUser(null)).withRel("create"));
+        return userAssembler.toModel(user);
     }
 
     @DeleteMapping("/user/{userName}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable String userName) {
+    public ResponseEntity<Void> deleteUser(@PathVariable String userName) {
         userService.deleteUserByUserName(userName);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/user/{userName}")
     public EntityModel<User> updateUser(@PathVariable String userName, @RequestBody UpdateUserDTO updateUserDTO) {
         User user = userService.updateUser(userName, updateUserDTO);
 
-        return EntityModel.of(user,
-                linkTo(methodOn(UserController.class).createUser(null)).withRel("create"),
-                linkTo(methodOn(UserController.class).updateUser(userName, null)).withSelfRel(),
-                linkTo(methodOn(UserController.class).getUser(userName)).withRel("get"));
+        return userAssembler.toModel(user);
     }
 
     @PostMapping("/user")
@@ -59,9 +56,6 @@ public class UserController {
     public EntityModel<User> createUser(@RequestBody NewUserDTO newUserDTO) {
         User user = userService.createUser(newUserDTO);
 
-        return EntityModel.of(user,
-                linkTo(methodOn(UserController.class).createUser(null)).withSelfRel(),
-                linkTo(methodOn(UserController.class).updateUser(user.getUserName(), null)).withRel("update"),
-                linkTo(methodOn(UserController.class).getUser(user.getUserName())).withRel("get"));
+        return userAssembler.toModel(user);
     }
 }
