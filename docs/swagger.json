@@ -55,7 +55,7 @@
           "400": {
             "description": "Parameters malformed"
           },
-          "403": {
+          "409": {
             "description": "A user with the same userName already exists"
           }
         }
@@ -232,7 +232,7 @@
               "$ref": "#/definitions/JournalEntry"
             }
           },
-          "403": {
+          "409": {
             "description": "An entry already exists for today."
           },
           "404": {

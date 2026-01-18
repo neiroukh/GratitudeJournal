@@ -14,7 +14,7 @@ public class UserExceptionHandler {
     }
 
     @ExceptionHandler(UserNameTakenException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseStatus(HttpStatus.CONFLICT)
     String userNameTakenHandler(UserNameTakenException ex) {
         return ex.getMessage();
     }

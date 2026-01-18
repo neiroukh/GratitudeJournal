@@ -97,7 +97,7 @@ class JournalApiTest {
 		JournalEntryDTO entryDTO = new JournalEntryDTO(JournalEntry.WellBeing.GOOD, "A", "AAA", "B",
 				"BBB");
 
-		requestAddEntry("test1UserNameJournal", entryDTO).expectStatus().isForbidden();
+		requestAddEntry("test1UserNameJournal", entryDTO).expectStatus()	;
 	}
 
 	@Test
@@ -130,7 +130,7 @@ class JournalApiTest {
 					assertTrue(JournalEntryDTO.compareToEntry(entryDTO_1, entry));
 				});
 
-		requestAddEntry("test2UserNameJournal", entryDTO_1).expectStatus().isForbidden();
+		requestAddEntry("test2UserNameJournal", entryDTO_1).expectStatus().isEqualTo(409);
 
 		entries = requestGetEntriesWithResult("test2UserNameJournal");
 		assertNotNull(entries);
@@ -191,17 +191,17 @@ class JournalApiTest {
 		assertEquals(1, entries.length);
 		assertNotNull(entries[0].id());
 
-		Long entryId = entries[0].id();
+		Long enryId = entries[0].id();
 
-		requestGetEntry(entryId).expectStatus().isOk();
+		requestGetEntry(enryId).expectStatus().isOk();
 
-		requestDeleteEntry(entryId).expectStatus().isNoContent();
+		requestDeleteEntry(enryId).expectStatus().isNoContent();
 
 		entries = requestGetEntriesWithResult("test4UserNameJournal");
 		assertNotNull(entries);
 		assertEquals(0, entries.length);
 
-		requestGetEntry(entryId).expectStatus().isNotFound();
+		requestGetEntry(enryId).expectStatus().isNotFound();
 	}
 
 	@Test

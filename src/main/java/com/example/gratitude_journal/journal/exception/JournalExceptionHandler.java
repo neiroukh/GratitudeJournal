@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class JournalExceptionHandler {
 
     @ExceptionHandler(EntryAlreadyExistsException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseStatus(HttpStatus.CONFLICT)
     String entryAlreadyExistsHandler(EntryAlreadyExistsException ex) {
         return ex.getMessage();
     }

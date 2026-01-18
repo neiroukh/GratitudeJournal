@@ -167,7 +167,7 @@ class UserApiTest {
 	@Test
 	void createUserThatDoesExist() {
 		requestPostUser("test1UserName", "firstName", "lastName")
-				.expectStatus().isForbidden();
+				.expectStatus().isEqualTo(409);
 	}
 
 	@Test
