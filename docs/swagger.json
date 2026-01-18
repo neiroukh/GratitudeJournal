@@ -345,7 +345,7 @@
       "type": "object",
       "properties": {
         "_links": {
-          "type": "json",
+          "type": "object",
           "format": "hal"
         },
         "userId": {
