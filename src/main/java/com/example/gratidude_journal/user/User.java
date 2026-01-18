@@ -1,5 +1,6 @@
 package com.example.gratidude_journal.user;
 
+import com.example.gratidude_journal.user.dto.ReturnUserDTO;
 import com.example.gratidude_journal.user.exception.*;
 
 import java.util.Objects;
@@ -97,6 +98,10 @@ public class User {
 
     public Journal getJournal() {
         return journal;
+    }
+
+    public ReturnUserDTO toReturnUserDTO() {
+        return new ReturnUserDTO(this.getUserId(), this.getUserName(), this.getFirstName(), this.getLastName());
     }
 
     @Override

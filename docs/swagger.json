@@ -47,9 +47,9 @@
         ],
         "responses": {
           "201": {
-            "description": "Returns the successfully created User",
+            "description": "Returns the successfully created User without its journal.",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/ReturnUser"
             }
           },
           "400": {
@@ -81,9 +81,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Returns the requested User Object successfully.",
+            "description": "Return the requested User Object without its journal.",
             "schema": {
-              "$ref": "#/definitions/User",
+              "$ref": "#/definitions/ReturnUser",
               "description": "The requested User object"
             }
           },
@@ -152,9 +152,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Return the successfully updated User",
+            "description": "Return the successfully updated User without its journal.",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/ReturnUser"
             }
           },
           "400": {
@@ -341,9 +341,13 @@
     }
   },
   "definitions": {
-    "User": {
+    "ReturnUser": {
       "type": "object",
       "properties": {
+        "_links": {
+          "type": "json",
+          "format": "hal"
+        },
         "userId": {
           "type": "integer",
           "format": "int64"

@@ -2,6 +2,8 @@ package com.example.gratidude_journal.user;
 
 import com.example.gratidude_journal.user.dto.NewUserDTO;
 import com.example.gratidude_journal.user.dto.UpdateUserDTO;
+import com.example.gratidude_journal.user.dto.ReturnUserDTO;
+import com.example.gratidude_journal.user.dto.ReturnUserDTOModelAssembler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,18 +25,18 @@ import org.springframework.hateoas.EntityModel;
 public class UserController {
     private final UserService userService;
 
-    private final UserModelAssembler userAssembler;
+    private final ReturnUserDTOModelAssembler returnUserDTOAssembler;
 
-    public UserController(UserService userService, UserModelAssembler userAssembler) {
+    public UserController(UserService userService, ReturnUserDTOModelAssembler returnUserDTOAssembler) {
         this.userService = userService;
-        this.userAssembler = userAssembler;
+        this.returnUserDTOAssembler = returnUserDTOAssembler;
     }
 
     @GetMapping("/user/{userName}")
-    public EntityModel<User> getUser(@PathVariable String userName) {
+    public EntityModel<ReturnUserDTO> getUser(@PathVariable String userName) {
         User user = userService.getUserByUserName(userName);
 
-        return userAssembler.toModel(user);
+        return returnUserDTOAssembler.toModel(user.toReturnUserDTO());
     }
 
     @DeleteMapping("/user/{userName}")
@@ -45,17 +47,18 @@ public class UserController {
     }
 
     @PutMapping("/user/{userName}")
-    public EntityModel<User> updateUser(@PathVariable String userName, @RequestBody UpdateUserDTO updateUserDTO) {
+    public EntityModel<ReturnUserDTO> updateUser(@PathVariable String userName,
+            @RequestBody UpdateUserDTO updateUserDTO) {
         User user = userService.updateUser(userName, updateUserDTO);
 
-        return userAssembler.toModel(user);
+        return returnUserDTOAssembler.toModel(user.toReturnUserDTO());
     }
 
     @PostMapping("/user")
     @ResponseStatus(HttpStatus.CREATED)
-    public EntityModel<User> createUser(@RequestBody NewUserDTO newUserDTO) {
+    public EntityModel<ReturnUserDTO> createUser(@RequestBody NewUserDTO newUserDTO) {
         User user = userService.createUser(newUserDTO);
 
-        return userAssembler.toModel(user);
+        return returnUserDTOAssembler.toModel(user.toReturnUserDTO());
     }
 }

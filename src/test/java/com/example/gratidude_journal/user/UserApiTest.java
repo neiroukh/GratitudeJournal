@@ -2,6 +2,7 @@ package com.example.gratidude_journal.user;
 
 import com.example.gratidude_journal.user.dto.NewUserDTO;
 import com.example.gratidude_journal.user.dto.UpdateUserDTO;
+import com.example.gratidude_journal.user.dto.ReturnUserDTO;
 import com.example.gratidude_journal.TestcontainersConfiguration;
 
 import org.junit.jupiter.api.Test;
@@ -37,12 +38,12 @@ class UserApiTest {
 	void requestAndValidateGetUser(String userName, String firstName, String lastName) {
 		requestGetUser(userName)
 				.expectStatus().isOk()
-				.expectBody(User.class)
-				.value(user -> {
-					org.junit.jupiter.api.Assertions.assertEquals(userName, user.getUserName());
-					org.junit.jupiter.api.Assertions.assertEquals(firstName, user.getFirstName());
-					org.junit.jupiter.api.Assertions.assertEquals(lastName, user.getLastName());
-					org.junit.jupiter.api.Assertions.assertNotNull(user.getUserId());
+				.expectBody(ReturnUserDTO.class)
+				.value(returnUserDTO -> {
+					org.junit.jupiter.api.Assertions.assertEquals(userName, returnUserDTO.userName());
+					org.junit.jupiter.api.Assertions.assertEquals(firstName, returnUserDTO.firstName());
+					org.junit.jupiter.api.Assertions.assertEquals(lastName, returnUserDTO.lastName());
+					org.junit.jupiter.api.Assertions.assertNotNull(returnUserDTO.userId());
 				});
 	}
 
@@ -62,12 +63,12 @@ class UserApiTest {
 	void requestAndValidatePutUser(String userName, String firstName, String lastName) {
 		requestPutUser(userName, firstName, lastName)
 				.expectStatus().isOk()
-				.expectBody(User.class)
-				.value(user -> {
-					assertEquals(userName, user.getUserName());
-					assertEquals(firstName, user.getFirstName());
-					assertEquals(lastName, user.getLastName());
-					assertNotNull(user.getUserId());
+				.expectBody(ReturnUserDTO.class)
+				.value(returnUserDTO -> {
+					assertEquals(userName, returnUserDTO.userName());
+					assertEquals(firstName, returnUserDTO.firstName());
+					assertEquals(lastName, returnUserDTO.lastName());
+					assertNotNull(returnUserDTO.userId());
 				});
 	}
 
@@ -81,12 +82,12 @@ class UserApiTest {
 	void requestAndValidatePostUser(String userName, String firstName, String lastName) {
 		requestPostUser(userName, firstName, lastName)
 				.expectStatus().isCreated()
-				.expectBody(User.class)
-				.value(user -> {
-					assertEquals(userName, user.getUserName());
-					assertEquals(firstName, user.getFirstName());
-					assertEquals(lastName, user.getLastName());
-					assertNotNull(user.getUserId());
+				.expectBody(ReturnUserDTO.class)
+				.value(returnUserDTO -> {
+					assertEquals(userName, returnUserDTO.userName());
+					assertEquals(firstName, returnUserDTO.firstName());
+					assertEquals(lastName, returnUserDTO.lastName());
+					assertNotNull(returnUserDTO.userId());
 				});
 	}
 
