@@ -42,12 +42,12 @@ public class JournalEntry {
     private LocalDate date;
 
     @Enumerated(EnumType.STRING)
-    WellBeing wellBeing;
+    private WellBeing wellBeing;
 
-    String gratefulForToday;
-    String gratefulForTodayDescription;
-    String gratefulForInLife;
-    String gratefulForInLifeDescription;
+    private String gratefulForToday;
+    private String gratefulForTodayDescription;
+    private String gratefulForInLife;
+    private String gratefulForInLifeDescription;
 
     public JournalEntry() {
         this.date = LocalDate.now();
@@ -126,6 +126,6 @@ public class JournalEntry {
     public String toString() {
         return "JournalEntry of " + date.toString() + "\n" + "Grateful for today: " + gratefulForToday + ". Reason: "
                 + gratefulForTodayDescription + ".\n" + "Grateful for in life: " + gratefulForInLife + ". Reason: "
-                + gratefulForTodayDescription + ".";
+                + gratefulForInLifeDescription + ".";
     }
 }
