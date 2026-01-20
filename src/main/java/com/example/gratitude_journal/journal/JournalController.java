@@ -2,11 +2,14 @@ package com.example.gratitude_journal.journal;
 
 import com.example.gratitude_journal.journal.entry.JournalEntry;
 import com.example.gratitude_journal.journal.entry.JournalEntryDTO;
+import com.example.gratitude_journal.journal.entry.JournalEntryModelAssembler;
 import com.example.gratitude_journal.journal.entry.IdDatePairDTO;
 
 import java.util.Collection;
 
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -23,8 +26,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class JournalController {
     private final JournalService journalService;
 
-    public JournalController(JournalService journalService) {
+    private final JournalEntryModelAssembler journalEntryAssembler;
+
+    public JournalController(JournalService journalService, JournalEntryModelAssembler journalEntryAssembler) {
         this.journalService = journalService;
+        this.journalEntryAssembler = journalEntryAssembler;
     }
 
     @GetMapping("/journal/{userName}")
@@ -34,23 +40,28 @@ public class JournalController {
 
     @PostMapping("/journal/{userName}")
     @ResponseStatus(HttpStatus.CREATED)
-    public JournalEntry addEntry(@PathVariable String userName, @RequestBody JournalEntry newEntry) {
-        return journalService.addEntry(userName, newEntry);
+    public EntityModel<JournalEntry> addEntry(@PathVariable String userName, @RequestBody JournalEntry newEntry) {
+        JournalEntry journalEntry = journalService.addEntry(userName, newEntry);
+        return journalEntryAssembler.toModel(journalEntry);
     }
 
     @GetMapping("/journal/entry/{journalEntryId}")
-    public JournalEntry getEntry(@PathVariable Long journalEntryId) {
-        return journalService.getEntry(journalEntryId);
-    }
-
-    @PutMapping("/journal/entry/{journalEntryId}")
-    public JournalEntry putEntry(@PathVariable Long journalEntryId, @RequestBody JournalEntryDTO updatedEntry) {
-        return journalService.putEntry(journalEntryId, updatedEntry);
+    public EntityModel<JournalEntry> getEntry(@PathVariable Long journalEntryId) {
+        JournalEntry journalEntry = journalService.getEntry(journalEntryId);
+        return journalEntryAssembler.toModel(journalEntry);
     }
 
     @DeleteMapping("/journal/entry/{journalEntryId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteEntry(@PathVariable Long journalEntryId) {
+    public ResponseEntity<Void> deleteEntry(@PathVariable Long journalEntryId) {
         journalService.deleteEntry(journalEntryId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/journal/entry/{journalEntryId}")
+    public EntityModel<JournalEntry> updateEntry(@PathVariable Long journalEntryId,
+            @RequestBody JournalEntryDTO updatedEntry) {
+        JournalEntry journalEntry = journalService.putEntry(journalEntryId, updatedEntry);
+        return journalEntryAssembler.toModel(journalEntry);
     }
 }

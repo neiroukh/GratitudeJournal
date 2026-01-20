@@ -22,7 +22,7 @@ import jakarta.persistence.ManyToOne;
 public class JournalEntry {
     @Id
     @GeneratedValue
-    Long journalEntryId;
+    private Long journalEntryId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "journal_id")
@@ -56,6 +56,10 @@ public class JournalEntry {
     public JournalEntry(Journal journal) {
         this.journal = journal;
         this.date = LocalDate.now();
+    }
+
+    public Long getJournalEntryId() {
+        return journalEntryId;
     }
 
     public void setJournal(Journal journal) {
