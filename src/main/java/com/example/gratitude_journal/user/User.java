@@ -1,7 +1,7 @@
 package com.example.gratitude_journal.user;
 
 import com.example.gratitude_journal.user.dto.ReturnUserDTO;
-import com.example.gratitude_journal.user.exception.*;
+import com.example.gratitude_journal.user.exception.NameInvalidException;
 
 import java.util.Objects;
 
