@@ -115,9 +115,12 @@ public class User {
     /**
      * Constructs a user and assigns it a new Journal instance.
      * 
-     * @param userName  The user name of the user to create
-     * @param firstName The first name of the user to create
-     * @param lastName  the last name of the user to create
+     * @param userName  The user name of the user to create. Is validated
+     * according to {@link User#validateName(String)} before applying it.
+     * @param firstName The first name of the user to create. Is validated
+     * according to {@link User#validateName(String)} before applying it.
+     * @param lastName  the last name of the user to create. Is validated
+     * according to {@link User#validateName(String)} before applying it.
      * 
      * @throws NameInvalidException One or more of the names are invalid.
      */
@@ -150,7 +153,7 @@ public class User {
 
     /**
      * Sets the user name of the user with the userName given. userName is validated
-     * before applying it using the validateName method.
+     * according to {@link User#validateName(String)} before applying it.
      * 
      * @param userName The userName to validate and apply.
      *
@@ -174,7 +177,7 @@ public class User {
 
     /**
      * Sets the first name of the user with the firstName given. firstName is
-     * validated before applying it using the validateName method.
+     * validated according to {@link User#validateName(String)} before applying it.
      * 
      * @param firstName The firstName to validate and apply.
      * 
@@ -198,7 +201,7 @@ public class User {
 
     /**
      * Sets the last name of the user with the lastName given. lastName is validated
-     * before applying it using the validateName method.
+     * according to {@link User#validateName(String)} before applying it.
      * 
      * @param lastName The lastName to validate and apply.
      * 
