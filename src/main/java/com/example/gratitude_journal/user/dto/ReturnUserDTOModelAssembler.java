@@ -10,10 +10,28 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
+/**
+ * Spring Component to create an EntityModel for a ReturnUserDTO object. Used to
+ * add HAL-Support to ReturnUserDTO responses.
+ * 
+ * @author Afeef Neiroukh
+ */
 @Component
 public class ReturnUserDTOModelAssembler
         implements RepresentationModelAssembler<ReturnUserDTO, EntityModel<ReturnUserDTO>> {
 
+    /**
+     * Return the ReturnUserDTO object and the following links in `_links`:
+     * - "self", points to the GET-Request of the user
+     * - "update", points to the PUT-Request of the user
+     * - "delete", points to the DELETE-Request of the user
+     * - "journal", points to the GET-Request of the user's journal
+     * 
+     * @param returnUserDTO The ReturnUserDTO object to wrap around an EntityModel
+     *                      object and add links to.
+     * @return An EntityModel<ReturnUserDTO> object containing the ReturnUserDTO
+     *         object with links to possible operations on it.
+     */
     @Override
     public EntityModel<ReturnUserDTO> toModel(ReturnUserDTO returnUserDTO) {
         return EntityModel.of(returnUserDTO,
