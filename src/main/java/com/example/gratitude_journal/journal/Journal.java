@@ -19,17 +19,46 @@ import jakarta.persistence.OneToMany;
 /*
     Part of the Persistence Layer for Journal-API
 */
+/**
+ * JPA-Entity to represent a journal in the GratitudeJournal Service. Part of
+ * the persistence layer of the Journal-API.
+ * 
+ * Every journal is uniquely identified by its primary key journalId, which is
+ * assigned automatically. Furthermore a journal includes a Set of
+ * {@link com.example.gratitude_journal.journal.entry} objects.
+ * 
+ * @author Afeef Neiroukh
+ */
 @Entity
 public class Journal {
+    /**
+     * The private primary key of the journal.
+     */
     @Column(name = "journal_id")
     private @Id @GeneratedValue Long journalId;
 
+    /**
+     * The private set of {@link com.example.gratitude_journal.journal.entry}
+     * objects.
+     */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "journal", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<JournalEntry> journalEntries = new HashSet<JournalEntry>();
 
+    /**
+     * Public empty constructor.
+     */
     public Journal() {
     }
 
+    /**
+     * Adds a new entry to {@link #journalEntries}.
+     * 
+     * @param newEntry The new {@link com.example.gratitude_journal.journal.entry}
+     *                 object to add. The entry must be from today.
+     * @throws EntryAlreadyExistsException An entry already exists for today.
+     * @throws RuntimeException            The date of the entry is not today.
+     * @throws IllegalArgumentException    The passed object is null.
+     */
     public void addEntry(JournalEntry newEntry) {
         if (newEntry == null)
             throw new IllegalArgumentException("Entry is null.");
@@ -45,21 +74,39 @@ public class Journal {
         journalEntries.add(newEntry);
     }
 
-    public boolean hasEntryForToday() {
+    /**
+     * Private helper method to check if an entry already exists for today.
+     * 
+     * @return
+     */
+    private boolean hasEntryForToday() {
         LocalDate today = LocalDate.now();
         // While this is inefficient, it is also simple and safe. It could however be
         // done in constant time in the future.
         return journalEntries.stream().anyMatch(entry -> today.equals(entry.getDate()));
     }
 
+    /**
+     * Getter for this object's journalEntries set.
+     * 
+     * @return The set of journal entries.
+     */
     public Set<JournalEntry> getJournalEntries() {
         return journalEntries;
     }
 
+    /**
+     * Getter for this object's primary key.
+     * 
+     * @return The journalId of this journal.
+     */
     public Long getJournalId() {
         return journalId;
     }
 
+    /**
+     * Compares two journals based on their primary keys.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -70,11 +117,17 @@ public class Journal {
         return Objects.equals(this.journalId, journal.journalId);
     }
 
+    /**
+     * Generates the hash code of a journal based on its primary key.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(this.journalId);
     }
 
+    /**
+     * Provides a basic String representation of this object.
+     */
     @Override
     public String toString() {
         return "Journal with id " + journalId.toString();
