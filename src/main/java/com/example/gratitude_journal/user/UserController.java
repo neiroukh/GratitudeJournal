@@ -18,20 +18,44 @@ import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.hateoas.EntityModel;
 
-/*
-    Presentation Layer for User-API
-*/
+/**
+ * Rest-Controller exposing the User-API. Part of the presentation layer of the
+ * User-API.
+ * 
+ * @author Afeef Neiroukh
+ */
 @RestController
 public class UserController {
+    /**
+     * UserService object injected by Spring.
+     */
     private final UserService userService;
 
+    /**
+     * ReturnUserDTOModelAssembler object injected by Spring. Used to add HAL links
+     * to reponses.
+     */
     private final ReturnUserDTOModelAssembler returnUserDTOAssembler;
 
+    /**
+     * Constructor of the UserController class.
+     * 
+     * @param userService            UserService object injected by Spring.
+     * @param returnUserDTOAssembler ReturnUserDTOModelAssembler object injected by
+     *                               Spring. Used to add HAL links to reponses.
+     */
     public UserController(UserService userService, ReturnUserDTOModelAssembler returnUserDTOAssembler) {
         this.userService = userService;
         this.returnUserDTOAssembler = returnUserDTOAssembler;
     }
 
+    /**
+     * Retrives a user.
+     * 
+     * @param userName The user name of the requested User object
+     * @return An {@code EntityModel<ReturnUserDTO>} object containing the retrieved
+     *         User and links to valid actions.
+     */
     @GetMapping("/user/{userName}")
     public EntityModel<ReturnUserDTO> getUser(@PathVariable String userName) {
         User user = userService.getUserByUserName(userName);
@@ -39,6 +63,12 @@ public class UserController {
         return returnUserDTOAssembler.toModel(user.toReturnUserDTO());
     }
 
+    /**
+     * Deletes a user
+     * 
+     * @param userName The user name of the User object to delete.
+     * @return Empty response.
+     */
     @DeleteMapping("/user/{userName}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> deleteUser(@PathVariable String userName) {
@@ -46,6 +76,15 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     * Updates the mutable fields of a User object.
+     * 
+     * @param userName      The user name of the User object to update.
+     * @param updateUserDTO The updateUserDTO object containing the updated mutable
+     *                      variables.
+     * @return An {@code EntityModel<ReturnUserDTO>} object containing the updated
+     *         User and links to valid actions.
+     */
     @PutMapping("/user/{userName}")
     public EntityModel<ReturnUserDTO> updateUser(@PathVariable String userName,
             @RequestBody UpdateUserDTO updateUserDTO) {
@@ -54,6 +93,14 @@ public class UserController {
         return returnUserDTOAssembler.toModel(user.toReturnUserDTO());
     }
 
+    /**
+     * Creates a new User object.
+     * 
+     * @param newUserDTO The NewUserDTO object containing the variables to initilize
+     *                   the new user with.
+     * @return An {@code EntityModel<ReturnUserDTO>} object containing the created
+     *         User and links to valid actions.
+     */
     @PostMapping("/user")
     @ResponseStatus(HttpStatus.CREATED)
     public EntityModel<ReturnUserDTO> createUser(@RequestBody NewUserDTO newUserDTO) {
