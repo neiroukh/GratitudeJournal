@@ -16,9 +16,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
-/*
-    Part of the Persistence Layer for Journal-API
-*/
 /**
  * JPA-Entity to represent a journal in the GratitudeJournal Service. Part of
  * the persistence layer of the Journal-API.
