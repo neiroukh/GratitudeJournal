@@ -25,7 +25,7 @@ import jakarta.persistence.OneToMany;
  * 
  * Every journal is uniquely identified by its primary key journalId, which is
  * assigned automatically. Furthermore a journal includes a Set of
- * {@link com.example.gratitude_journal.journal.entry} objects.
+ * {@link com.example.gratitude_journal.journal.entry.JournalEntry} objects.
  * 
  * @author Afeef Neiroukh
  */
@@ -38,7 +38,8 @@ public class Journal {
     private @Id @GeneratedValue Long journalId;
 
     /**
-     * The private set of {@link com.example.gratitude_journal.journal.entry}
+     * The private set of
+     * {@link com.example.gratitude_journal.journal.entry.JournalEntry}
      * objects.
      */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "journal", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -53,7 +54,8 @@ public class Journal {
     /**
      * Adds a new entry to {@link #journalEntries}.
      * 
-     * @param newEntry The new {@link com.example.gratitude_journal.journal.entry}
+     * @param newEntry The new
+     *                 {@link com.example.gratitude_journal.journal.entry.JournalEntry}
      *                 object to add. The entry must be from today.
      * @throws EntryAlreadyExistsException An entry already exists for today.
      * @throws RuntimeException            The date of the entry is not today.
