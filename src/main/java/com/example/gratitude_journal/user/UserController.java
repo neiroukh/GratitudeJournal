@@ -42,7 +42,7 @@ public class UserController {
      * 
      * @param userService            UserService object injected by Spring.
      * @param returnUserDTOAssembler ReturnUserDTOModelAssembler object injected by
-     *                               Spring. Used to add HAL links to reponses.
+     *                               Spring. Used to add HAL links to responses.
      */
     public UserController(UserService userService, ReturnUserDTOModelAssembler returnUserDTOAssembler) {
         this.userService = userService;

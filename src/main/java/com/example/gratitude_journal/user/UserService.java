@@ -157,8 +157,8 @@ public class UserService {
     /**
      * Save the User object matching the user name to the repository.
      * 
-     * @param userName
-     * @return
+     * @param userName The unique user name of the user to save to the repository.
+     * @return The saved User object.
      */
     public User saveUser(String userName) {
         validateName(userName);

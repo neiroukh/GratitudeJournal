@@ -15,6 +15,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class UserExceptionHandler {
     /**
+     * Default constructor.
+     */
+    UserExceptionHandler() {
+    }
+
+    /**
      * Handler for the {@link NameInvalidException} Exception.
      * 
      * @param ex The {@link NameInvalidException} object
@@ -29,7 +35,7 @@ public class UserExceptionHandler {
     /**
      * Handler for the {@link UserNameTakenException} Exception
      * 
-     * @param ex The {@link UserNameTakenException} object
+     * @param ex The {@link UserNameTakenException} object.
      * @return The exception message and HTTP-Code 409 Conflict.
      */
     @ExceptionHandler(UserNameTakenException.class)
@@ -41,7 +47,7 @@ public class UserExceptionHandler {
     /**
      * Handler for the {@link UserNotFoundException} Exception
      * 
-     * @param ex The {@link UserNotFoundException} object
+     * @param ex The {@link UserNotFoundException} object.
      * @return The exception message and HTTP-Code 404 Not Found.
      */
     @ExceptionHandler(UserNotFoundException.class)

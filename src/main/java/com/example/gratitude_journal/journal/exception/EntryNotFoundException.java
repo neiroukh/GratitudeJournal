@@ -2,6 +2,8 @@ package com.example.gratitude_journal.journal.exception;
 
 /**
  * Exception thrown when the requested journal entry is not found.
+ * 
+ * @author Afeef Neiroukh
  */
 public class EntryNotFoundException extends RuntimeException {
     /**

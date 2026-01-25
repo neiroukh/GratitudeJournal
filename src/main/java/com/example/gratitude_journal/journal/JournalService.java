@@ -21,7 +21,16 @@ import com.example.gratitude_journal.user.UserService;
  */
 @Service
 public class JournalService {
+    /**
+     * {@link com.example.gratitude_journal.journal.entry.JournalEntryRepository}
+     * object injected by Spring.
+     */
     private final JournalEntryRepository entryRepository;
+
+    /**
+     * {@link com.example.gratitude_journal.user.UserService} object injected by
+     * Spring.
+     */
     private final UserService userService;
 
     /**

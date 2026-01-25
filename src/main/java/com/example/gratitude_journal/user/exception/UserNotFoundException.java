@@ -8,7 +8,7 @@ package com.example.gratitude_journal.user.exception;
 public class UserNotFoundException extends RuntimeException {
 
     /**
-     * Constructor of the UserNotFoundException class.
+     * Public constructor of the UserNotFoundException class.
      * 
      * @param userName The user name of the missing user to mention in the Exception
      *                 message.

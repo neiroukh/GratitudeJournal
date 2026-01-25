@@ -5,13 +5,16 @@ package com.example.gratitude_journal.journal.entry;
  * way they do not have to fill the automatically assigned fields journalEntryId
  * and date.
  * 
- * @param wellBeing                    The wellbeing reported by the user.
+ * @param wellBeing                    The value of well-being reported by the
+ *                                     user.
  * @param gratefulForToday             What the user is grateful for today.
  * @param gratefulForTodayDescription  Description of what the user is grateful
  *                                     for today.
  * @param gratefulForInLife            What the user is grateful for in life.
  * @param gratefulForInLifeDescription Description of what the user is grateful
  *                                     for in life.
+ * 
+ * @author Afeef Neiroukh
  */
 public record JournalEntryDTO(JournalEntry.WellBeing wellBeing,
                 String gratefulForToday,

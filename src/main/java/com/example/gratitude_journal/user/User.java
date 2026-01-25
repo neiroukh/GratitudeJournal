@@ -108,6 +108,9 @@ public class User {
         return validateName(userName) && validateName(firstName) && validateName(lastName);
     }
 
+    /**
+     * Constructs an empty user and assigns it a new Journal instance.
+     */
     protected User() {
         this.journal = new Journal();
     }
@@ -237,6 +240,12 @@ public class User {
         return new ReturnUserDTO(this.getUserId(), this.getUserName(), this.getFirstName(), this.getLastName());
     }
 
+    /**
+     * Compares two users based on their primary keys and names.
+     * 
+     * @param o The object to compare the user to.
+     * @return true if objects are equal, false otherwise.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -248,11 +257,21 @@ public class User {
                 && Objects.equals(this.firstName, user.firstName) && Objects.equals(this.lastName, user.lastName);
     }
 
+    /**
+     * Generates the hash code of a user based on its primary key.
+     * 
+     * @return The hash code of this object.
+     */
     @Override
     public int hashCode() {
-        return Objects.hash(this.userId, this.userName);
+        return Objects.hash(this.userId);
     }
 
+    /**
+     * Provides a basic String representation of this object.
+     * 
+     * @return String representation of this object.
+     */
     @Override
     public String toString() {
         return "user{" + "userId=" + this.userId + ", userName='" + this.userName + '\'' + ", firstName='"

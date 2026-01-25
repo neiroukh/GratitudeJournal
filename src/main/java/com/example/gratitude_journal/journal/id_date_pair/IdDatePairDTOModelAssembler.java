@@ -20,6 +20,12 @@ public class IdDatePairDTOModelAssembler
                 implements RepresentationModelAssembler<IdDatePairDTO, EntityModel<IdDatePairDTO>> {
 
         /**
+         * Default constructor.
+         */
+        IdDatePairDTOModelAssembler() {
+        }
+
+        /**
          * Returns the
          * {@link com.example.gratitude_journal.journal.id_date_pair.IdDatePairDTO}
          * object and the following links in the "_links" property:
@@ -35,7 +41,7 @@ public class IdDatePairDTOModelAssembler
          * @param idDatePair The
          *                   {@link com.example.gratitude_journal.journal.id_date_pair.IdDatePairDTO}
          *                   object to wrap in an EntityModel object and add links to.
-         * @return An {@code EntityModel<JournalEntry>} object containing the
+         * @return An {@code EntityModel<IdDatePairDTO>} object containing the
          *         {@link com.example.gratitude_journal.journal.id_date_pair.IdDatePairDTO}
          *         object with links to possible operations on it.
          */

@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Rest-Controller exposing the Journal-API. Part of the presentation layer of
  * the Journal-API.
+ * 
+ * @author Afeef Neiroukh
  */
 @RestController
 public class JournalController {

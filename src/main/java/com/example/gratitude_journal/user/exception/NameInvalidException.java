@@ -7,7 +7,7 @@ package com.example.gratitude_journal.user.exception;
  */
 public class NameInvalidException extends RuntimeException {
     /**
-     * Constructor of the NameInvalidException class.
+     * Public constructor of the NameInvalidException class.
      * 
      * @param name The invalid name to mention in the Exception message.
      */

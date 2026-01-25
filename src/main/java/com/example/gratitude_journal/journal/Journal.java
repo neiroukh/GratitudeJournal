@@ -76,7 +76,7 @@ public class Journal {
     /**
      * Private helper method to check if an entry already exists for today.
      * 
-     * @return
+     * @return True if the journal includes an entry from today, false otherwise.
      */
     private boolean hasEntryForToday() {
         LocalDate today = LocalDate.now();
@@ -118,6 +118,8 @@ public class Journal {
 
     /**
      * Generates the hash code of a journal based on its primary key.
+     * 
+     * @return The hash code of this object.
      */
     @Override
     public int hashCode() {
@@ -126,6 +128,8 @@ public class Journal {
 
     /**
      * Provides a basic String representation of this object.
+     * 
+     * @return String representation of this object.
      */
     @Override
     public String toString() {

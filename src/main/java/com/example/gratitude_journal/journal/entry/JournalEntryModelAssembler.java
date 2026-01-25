@@ -20,9 +20,15 @@ public class JournalEntryModelAssembler
                 implements RepresentationModelAssembler<JournalEntry, EntityModel<JournalEntry>> {
 
         /**
+         * Default constructor.
+         */
+        JournalEntryModelAssembler() {
+
+        }
+
+        /**
          * Returns the {@link com.example.gratitude_journal.journal.entry.JournalEntry}
-         * object and the following links in the "_links"
-         * property:
+         * object and the following links in the "_links" property:
          * <ul>
          * <li>"self", points to the GET-Request of the journal entry</li>
          * <li>"update", points to the PUT-Request of the journal entry</li>

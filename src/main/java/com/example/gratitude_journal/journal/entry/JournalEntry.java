@@ -46,12 +46,19 @@ public class JournalEntry {
      * Enum containing the possible states of wellbeing.
      */
     public enum WellBeing {
+        /** User feels awful. */
         AWFUL,
+        /** User feels bad. */
         BAD,
+        /** User feels mildly bad. */
         MILDLY_BAD,
+        /** User feels neutral. */
         NEUTRAL,
+        /** User feels mildly good. */
         MILDLY_GOOD,
+        /** User feels good. */
         GOOD,
+        /** User feels fantastic. */
         FANTASTIC
     }
 
@@ -72,7 +79,7 @@ public class JournalEntry {
      */
     private String gratefulForToday;
 
-    /** 
+    /**
      * String saving details about what the user is grateful for today.
      */
     private String gratefulForTodayDescription;
@@ -82,9 +89,9 @@ public class JournalEntry {
      */
     private String gratefulForInLife;
 
-    /** 
+    /**
      * String saving details about what the user is grateful for in life.
-    */
+     */
     private String gratefulForInLifeDescription;
 
     /**
@@ -134,6 +141,7 @@ public class JournalEntry {
 
     /**
      * Get the value of {@link #wellBeing}.
+     * 
      * @return the value of the {@link #wellBeing} field
      */
     public WellBeing getWellBeing() {
@@ -142,6 +150,7 @@ public class JournalEntry {
 
     /**
      * Set the value of {@link #wellBeing}
+     * 
      * @param wellBeing Value to set {@link #wellBeing} to.
      */
     public void setWellBeing(WellBeing wellBeing) {
@@ -150,6 +159,7 @@ public class JournalEntry {
 
     /**
      * Get the value of {@link #gratefulForToday}.
+     * 
      * @return the value of the {@link #gratefulForToday} field.
      */
     public String getGratefulForToday() {
@@ -158,6 +168,7 @@ public class JournalEntry {
 
     /**
      * Set the value of {@link #gratefulForToday}
+     * 
      * @param gratefulForToday Value to set {@link #gratefulForToday} to.
      */
     public void setGratefulForToday(String gratefulForToday) {
@@ -166,6 +177,7 @@ public class JournalEntry {
 
     /**
      * Get the value of {@link #gratefulForTodayDescription}.
+     * 
      * @return the value of the {@link #gratefulForTodayDescription} field.
      */
     public String getGratefulForTodayDescription() {
@@ -174,7 +186,9 @@ public class JournalEntry {
 
     /**
      * Set the value of {@link #gratefulForTodayDescription}
-     * @param gratefulForTodayDescription Value to set {@link #gratefulForTodayDescription} to.
+     * 
+     * @param gratefulForTodayDescription Value to set
+     *                                    {@link #gratefulForTodayDescription} to.
      */
     public void setGratefulForTodayDescription(String gratefulForTodayDescription) {
         this.gratefulForTodayDescription = gratefulForTodayDescription;
@@ -182,6 +196,7 @@ public class JournalEntry {
 
     /**
      * Get the value of {@link #gratefulForInLife}.
+     * 
      * @return the value of the {@link #gratefulForInLife} field.
      */
     public String getGratefulForInLife() {
@@ -190,6 +205,7 @@ public class JournalEntry {
 
     /**
      * Set the value of {@link #gratefulForInLife}
+     * 
      * @param gratefulForInLife Value to set {@link #gratefulForInLife} to.
      */
     public void setGratefulForInLife(String gratefulForInLife) {
@@ -198,6 +214,7 @@ public class JournalEntry {
 
     /**
      * Get the value of {@link #gratefulForInLifeDescription}.
+     * 
      * @return the value of the {@link #gratefulForInLifeDescription} field.
      */
     public String getGratefulForInLifeDescription() {
@@ -206,7 +223,9 @@ public class JournalEntry {
 
     /**
      * Set the value of {@link #gratefulForInLifeDescription}
-     * @param gratefulForInLifeDescription Value to set {@link #gratefulForInLifeDescription} to.
+     * 
+     * @param gratefulForInLifeDescription Value to set
+     *                                     {@link #gratefulForInLifeDescription} to.
      */
     public void setGratefulForInLifeDescription(String gratefulForInLifeDescription) {
         this.gratefulForInLifeDescription = gratefulForInLifeDescription;

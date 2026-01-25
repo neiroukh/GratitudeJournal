@@ -11,8 +11,8 @@ import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
 /**
- * Spring Component to create an EntityModel for a ReturnUserDTO object. Used to
- * add HAL-Support to ReturnUserDTO responses.
+ * Spring Component to create an EntityModel for a {@link ReturnUserDTO} object.
+ * Used to add HAL-Support to {@link ReturnUserDTO} responses.
  * 
  * @author Afeef Neiroukh
  */
@@ -21,7 +21,15 @@ public class ReturnUserDTOModelAssembler
         implements RepresentationModelAssembler<ReturnUserDTO, EntityModel<ReturnUserDTO>> {
 
     /**
-     * Return the ReturnUserDTO object and the following links in the "_links" property:
+     * Default constructor.
+     */
+    ReturnUserDTOModelAssembler() {
+    }
+
+    /**
+     * Returns the {@link ReturnUserDTO} object and the following links in the
+     * "_links"
+     * property:
      * <ul>
      * <li>"self", points to the GET-Request of the user</li>
      * <li>"update", points to the PUT-Request of the user</li>
@@ -29,10 +37,10 @@ public class ReturnUserDTOModelAssembler
      * <li>"journal", points to the GET-Request of the user's journal</li>
      * </ul>
      * 
-     * @param returnUserDTO The ReturnUserDTO object to wrap around an EntityModel
-     *                      object and add links to.
-     * @return An {@code EntityModel<ReturnUserDTO>} object containing
-     *         the ReturnUserDTO object with links to possible operations on it.
+     * @param returnUserDTO The {@link ReturnUserDTO} object to wrap in an
+     *                      EntityModel object and add links to.
+     * @return An {@code EntityModel<ReturnUserDTO>} object containing the
+     *         {@link ReturnUserDTO} object with links to possible operations on it.
      */
     @Override
     public EntityModel<ReturnUserDTO> toModel(ReturnUserDTO returnUserDTO) {

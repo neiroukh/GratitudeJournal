@@ -3,7 +3,9 @@ package com.example.gratitude_journal.journal.exception;
 import java.time.LocalDate;
 
 /**
- * Exception thrown when a journal entry already exists for a certain date.
+ * Exception thrown when the journal entry already exists for a certain date.
+ * 
+ * @author Afeef Neiroukh
  */
 public class EntryAlreadyExistsException extends RuntimeException {
     /**

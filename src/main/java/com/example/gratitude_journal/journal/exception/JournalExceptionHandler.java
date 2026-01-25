@@ -15,7 +15,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class JournalExceptionHandler {
     /**
-     * Handler for {@link EntryAlreadyExistsException}.
+     * Default constructor.
+     */
+    JournalExceptionHandler() {
+    }
+
+    /**
+     * Handler for the {@link EntryAlreadyExistsException} Exception.
      * 
      * @param ex The {@link EntryAlreadyExistsException} object
      * @return The exception message and HTTP-Code 409 Conflict.
@@ -27,7 +33,7 @@ public class JournalExceptionHandler {
     }
 
     /**
-     * Handler for {@link EntryNotFoundException}.
+     * Handler for the {@link EntryNotFoundException} Exception.
      * 
      * @param ex The {@link EntryNotFoundException} object
      * @return The exception message and HTTP-Code 404 Not Found.

@@ -3,7 +3,7 @@ package com.example.gratitude_journal.journal.id_date_pair;
 import java.time.LocalDate;
 
 /**
- * Record to provide a an id-date pair. Used to provide an overview of all
+ * Record to provide an id-date pair. Used to provide an overview of all
  * journal entries.
  * 
  * @param id   The id to save.
