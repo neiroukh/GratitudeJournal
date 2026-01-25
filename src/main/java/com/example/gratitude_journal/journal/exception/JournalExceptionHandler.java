@@ -5,15 +5,33 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/**
+ * Exception handler for Spring to provide
+ * {@link com.example.gratitude_journal.journal.JournalController} with proper
+ * HTTP-Responses in case of an exception.
+ * 
+ * @author Afeef Neiroukh
+ */
 @RestControllerAdvice
 public class JournalExceptionHandler {
-
+    /**
+     * Handler for {@link EntryAlreadyExistsException}.
+     * 
+     * @param ex The {@link EntryAlreadyExistsException} object
+     * @return The exception message and HTTP-Code 409 Conflict.
+     */
     @ExceptionHandler(EntryAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     String entryAlreadyExistsHandler(EntryAlreadyExistsException ex) {
         return ex.getMessage();
     }
 
+    /**
+     * Handler for {@link EntryNotFoundException}.
+     * 
+     * @param ex The {@link EntryNotFoundException} object
+     * @return The exception message and HTTP-Code 404 Not Found.
+     */
     @ExceptionHandler(EntryNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     String entryDoesNotExistHandler(EntryNotFoundException ex) {
