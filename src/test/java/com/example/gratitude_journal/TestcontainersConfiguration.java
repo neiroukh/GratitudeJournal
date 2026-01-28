@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Bean;
+import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.mysql.MySQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
@@ -18,6 +19,7 @@ import com.example.gratitude_journal.user.UserRepository;
  * @author Afeef Neiroukh
  */
 @TestConfiguration(proxyBeanMethods = false)
+@ActiveProfiles("test")
 public class TestcontainersConfiguration {
 	/**
 	 * Default constructor.
@@ -43,8 +45,8 @@ public class TestcontainersConfiguration {
 	}
 
 	/**
-	 * Bean that creates a {@link CommandLineRunner} to set up the database state for
-	 * testing.
+	 * Bean that creates a {@link CommandLineRunner} to set up a temporary MySQL
+	 * Docker container for tests.
 	 * 
 	 * @param repository User repository injected by Spring.
 	 * @return {@link CommandLineRunner} to set up the database state for testing.
@@ -52,8 +54,6 @@ public class TestcontainersConfiguration {
 	@Bean
 	CommandLineRunner testcontainersConfiguration(UserRepository repository) {
 		return args -> {
-			log.info("Repository reset");
-			repository.deleteAll();
 			log.info("Preloading " + repository.save(new User("test1UserName", "test1FirstName", "test1LastName")));
 			log.info("Preloading " + repository.save(new User("test2UserName", "test2FirstName", "test2LastName")));
 			log.info("Preloading " + repository.save(new User("test3UserName", "test3FirstName", "test3LastName")));

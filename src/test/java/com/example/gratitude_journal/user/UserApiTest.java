@@ -14,18 +14,22 @@ import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTe
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.client.RestTestClient;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.client.RestTestClient.ResponseSpec;
 
 /**
- * Unit-Tests for the endpoints in {@link com.example.gratitude_journal.user.UserController}, testing the presentation layer of the User-API.
+ * Unit-Tests for the endpoints in
+ * {@link com.example.gratitude_journal.user.UserController}, testing the
+ * presentation layer of the User-API.
  * 
  * @author Afeef Neiroukh
  */
 @Import(TestcontainersConfiguration.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureRestTestClient
+@ActiveProfiles("test")
 class UserApiTest {
 	/**
 	 * Port of the testing service.

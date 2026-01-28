@@ -21,6 +21,7 @@ import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTe
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.client.RestTestClient;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.client.RestTestClient.ResponseSpec;
@@ -29,13 +30,16 @@ import org.testcontainers.shaded.com.fasterxml.jackson.databind.JsonMappingExcep
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * Unit-Tests for the endpoints in {@link com.example.gratitude_journal.journal.JournalController}, testing the presentation layer of the Journal-API.
+ * Unit-Tests for the endpoints in
+ * {@link com.example.gratitude_journal.journal.JournalController}, testing the
+ * presentation layer of the Journal-API.
  * 
  * @author Afeef Neiroukh
  */
 @Import(TestcontainersConfiguration.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureRestTestClient
+@ActiveProfiles("test")
 class JournalApiTest {
 	/**
 	 * Port of the testing service.
@@ -53,8 +57,9 @@ class JournalApiTest {
 	 * Helper method to perform a POST-Request to add a new entry to a user's
 	 * journal.
 	 * 
-	 * @param userName The user name of the user to add the entry to.
-	 * @param journalEntryDTO JournalEntryDTO object describing the fields of the new entry.
+	 * @param userName        The user name of the user to add the entry to.
+	 * @param journalEntryDTO JournalEntryDTO object describing the fields of the
+	 *                        new entry.
 	 * @return {@link ResponseSpec} of the request.
 	 */
 	ResponseSpec requestAddEntry(String userName, JournalEntryDTO journalEntryDTO) {
@@ -121,8 +126,9 @@ class JournalApiTest {
 	/**
 	 * Helper method to perform a PUT-Request on a specific journal entry.
 	 * 
-	 * @param journalEntryId The id of the journal entry to update.
-	 * @param journalEntryDTO JournalEntryDTO object containing the necessary fields to update the journal entry.
+	 * @param journalEntryId  The id of the journal entry to update.
+	 * @param journalEntryDTO JournalEntryDTO object containing the necessary fields
+	 *                        to update the journal entry.
 	 * @return {@link ResponseSpec} of the request.
 	 */
 	ResponseSpec requestPutEntry(Long journalEntryId, JournalEntryDTO journalEntryDTO) {
@@ -167,7 +173,8 @@ class JournalApiTest {
 	}
 
 	/**
-	 * Unit-Test for POST-Request adding a new entry when one already exists for today.
+	 * Unit-Test for POST-Request adding a new entry when one already exists for
+	 * today.
 	 */
 	@Test
 	void addEntryConflictingDate() {
