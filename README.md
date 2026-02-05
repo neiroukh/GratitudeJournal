@@ -11,7 +11,7 @@ A web service to keep track of your well being and the things you are grateful f
 
 ## Documentation
 
-The API documentation can be found [here](https://cppcake.github.io/GratitudeJournal-Swagger-Page/). A webpage containing the javadoc documentation will be available soon.
+The API documentation can be found [here](https://cppcake.github.io/GratitudeJournal-Swagger-Page/). A webpage containing the javadoc page of the project's source code is available [here](https://cppcake.github.io/GratitudeJournal/). The documentation is updated automatically using GitHub Actions workflows and hosted with GitHub Pages.
 
 ## Requirements
 
@@ -22,9 +22,9 @@ The following software is necessary to build and run the service:
 
 ## Getting started
 
-> Note:  First be sure to meet the [requirements](#requirements).
+> Note: Be sure to meet the [requirements](#requirements) before proceeding.
 
- First set the database password and root password. To do so it is recommended to create an `.env` file in the root directory of the project and populate it with the secret credentials of your choosing:
+First set the database password and root password. To do so it is recommended to create an `.env` file in the root directory of the project and populate it with the secret credentials of your choosing:
 
 ```
 MYSQL_PASSWORD=PASSWORD-HERE
@@ -57,7 +57,7 @@ The tests can simply be run by using
 mvn test
 ```
 
-Thanks to [Testcontainers](#spring-components), the tests run inside their own container and do not interfere with the service or future tests.
+Thanks to [Testcontainers](https://docs.spring.io/spring-boot/reference/testing/testcontainers.html), the tests run inside their own container and do not interfere with the service or future tests.
 
 ## Security
 
