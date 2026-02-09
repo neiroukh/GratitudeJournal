@@ -6,8 +6,11 @@ import io.github.cppcake.gratitudejournal.journal.id_date_pair.IdDatePairDTO;
 
 import io.github.cppcake.gratitudejournal.TestcontainersConfiguration;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.JsonNode;
-
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -41,6 +44,7 @@ import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureRestTestClient
 @ActiveProfiles("test")
+@TestMethodOrder(OrderAnnotation.class)
 class JournalApiTest {
 	/**
 	 * Port of the testing service.
@@ -155,6 +159,7 @@ class JournalApiTest {
 	 * Unit-Test for POST-Request adding a new entry to a user's journal.
 	 */
 	@Test
+	@Order(0)
 	void addEntry() {
 		JournalEntryDTO journalEntryDTO = new JournalEntryDTO(JournalEntry.WellBeing.GOOD, "Cake", "Cake is tasty.",
 				"Computers", "They empower me to do awesome things.");
