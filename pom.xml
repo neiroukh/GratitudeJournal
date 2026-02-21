@@ -8,7 +8,7 @@
 		<version>4.0.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>io.github.cppcake</groupId>
+	<groupId>io.github.neiroukh</groupId>
 	<artifactId>gratitudejournal</artifactId>
 	<version>1.0.0</version>
 	<name>Gratitude Journal</name>
@@ -22,7 +22,7 @@
 	</licenses>
 	<developers>
 		<developer>
-			<id>cppcake</id>
+			<id>neiroukh</id>
 			<name>Afeef Neiroukh</name>
 		</developer>
 	</developers>

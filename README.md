@@ -4,14 +4,14 @@ A web service to keep track of your well being and the things you are grateful f
 
 ## Features
 
-- [Fully documented API](https://cppcake.github.io/GratitudeJournal-Swagger-Page/) to track your well being and the things you are grateful for
+- [Fully documented API](https://neiroukh.github.io/GratitudeJournal-Swagger-Page/) to track your well being and the things you are grateful for
 - Support for multiple users
 - Easy setup using Maven and Docker
 - Unit-Tests for every Endpoint using Testcontainers
 
 ## Documentation
 
-The API documentation can be found [here](https://cppcake.github.io/GratitudeJournal-Swagger-Page/). A webpage containing the javadoc page of the project's source code is available [here](https://cppcake.github.io/GratitudeJournal/). The documentation is updated automatically using GitHub Actions workflows and hosted with GitHub Pages.
+The API documentation can be found [here](https://neiroukh.github.io/GratitudeJournal-Swagger-Page/). A webpage containing the javadoc page of the project's source code is available [here](https://neiroukh.github.io/GratitudeJournal/). The documentation is updated automatically using GitHub Actions workflows and hosted with GitHub Pages.
 
 ## Requirements
 
